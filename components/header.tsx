@@ -7,6 +7,8 @@ import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const HEADER_HEIGHT = 64; // altura aproximada do seu header
+
 export default function Header() {
   const { t } = useI18n();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -19,9 +21,22 @@ export default function Header() {
   ];
 
   const scrollTo = (href: string) => {
-    const el = document?.querySelector?.(href);
-    el?.scrollIntoView?.({ behavior: 'smooth' });
-    setMobileMenuOpen(false);
+    setMobileMenuOpen(false); // fecha o menu antes
+
+    setTimeout(() => { // espera a animação terminar
+      const el = document.querySelector(href);
+      if (!el) return;
+
+      const y =
+        el.getBoundingClientRect().top +
+        window.pageYOffset -
+        HEADER_HEIGHT;
+
+      window.scrollTo({
+        top: y,
+        behavior: 'smooth',
+      });
+    }, 300); // duração aproximada da animação do menu
   };
 
   return (
@@ -33,15 +48,15 @@ export default function Header() {
           </a>
 
           <nav className="hidden md:flex items-center gap-6">
-            {navItems?.map?.((item) => (
+            {navItems.map(item => (
               <button
-                key={item?.href}
-                onClick={() => scrollTo(item?.href ?? '')}
+                key={item.href}
+                onClick={() => scrollTo(item.href)}
                 className="text-slate-600 dark:text-slate-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors font-medium"
               >
-                {item?.label}
+                {item.label}
               </button>
-            )) ?? null}
+            ))}
           </nav>
 
           <div className="flex items-center gap-3">
@@ -60,21 +75,22 @@ export default function Header() {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
             className="md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700"
           >
             <nav className="flex flex-col px-4 py-4 gap-2">
-              {navItems?.map?.((item) => (
+              {navItems.map(item => (
                 <button
-                  key={item?.href}
-                  onClick={() => scrollTo(item?.href ?? '')}
+                  key={item.href}
+                  onClick={() => scrollTo(item.href)}
                   className="text-left px-4 py-3 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors font-medium"
                 >
-                  {item?.label}
+                  {item.label}
                 </button>
-              )) ?? null}
+              ))}
             </nav>
           </motion.div>
         )}
