@@ -44,7 +44,7 @@ export default function Footer() {
             <p className="text-slate-400 mb-6 max-w-md">
               {t?.footer?.description ?? "Transformando ideias em experiências digitais memoráveis."}
             </p>
-            <div className="flex gap-4">
+            {/* <div className="flex gap-4">
               <a
                 href="#"
                 className="w-10 h-10 bg-slate-800 hover:bg-violet-600 rounded-full flex items-center justify-center transition-colors"
@@ -63,7 +63,7 @@ export default function Footer() {
               >
                 <Linkedin className="w-5 h-5" />
               </a>
-            </div>
+            </div> */}
           </div>
 
           <div>
