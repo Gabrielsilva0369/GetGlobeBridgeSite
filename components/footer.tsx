@@ -1,17 +1,36 @@
 "use client";
 
-import { useI18n } from '@/lib/i18n';
-import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
+import { useI18n } from "@/lib/i18n";
+import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 
 export default function Footer() {
-  const { t, locale } = useI18n();
+  const { t, locale, whatsappNumber } = useI18n();
 
-  const phone = locale === 'pt-BR' ? '+55 11 99999-9999' : '+351 912 345 678';
-  const location = locale === 'pt-BR' ? 'São Paulo, Brasil' : 'Lisboa, Portugal';
+  // Números e localizações podem vir do contexto ou de um objeto
+  const phoneMap: Record<string, string> = {
+    "pt-BR": "+351 966 939 673",
+    "pt-PT": "+351 966 939 673",
+    "en-US": "+351 966 939 673",
+  };
+  const mailMap: Record<string, string> = {
+    "pt-BR": "contato@getglobe.com.br",
+    "pt-PT": "contato@getglobe.com.br",
+    "en-US": "contato@getglobe.com.br",
+  };
+
+  const locationMap: Record<string, string> = {
+    "pt-BR": "Rio de Janeiro, Brasil",
+    "pt-PT": "Lisboa, Portugal",
+    "en-US": "Lisboa, Portugal",
+  };
+
+  const phone = phoneMap[locale] || phoneMap["pt-BR"];
+  const location = locationMap[locale] || locationMap["pt-BR"];
+  const mail = mailMap[locale] || mailMap["pt-BR"];
 
   const scrollTo = (href: string) => {
     const el = document?.querySelector?.(href);
-    el?.scrollIntoView?.({ behavior: 'smooth' });
+    el?.scrollIntoView?.({ behavior: "smooth" });
   };
 
   return (
@@ -23,44 +42,57 @@ export default function Footer() {
               Get Globe Bridge
             </h3>
             <p className="text-slate-400 mb-6 max-w-md">
-              {t?.footer?.description ?? 'Transformando ideias em experiências digitais memoráveis.'}
+              {t?.footer?.description ?? "Transformando ideias em experiências digitais memoráveis."}
             </p>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 bg-slate-800 hover:bg-violet-600 rounded-full flex items-center justify-center transition-colors">
+              <a
+                href="#"
+                className="w-10 h-10 bg-slate-800 hover:bg-violet-600 rounded-full flex items-center justify-center transition-colors"
+              >
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="#" className="w-10 h-10 bg-slate-800 hover:bg-violet-600 rounded-full flex items-center justify-center transition-colors">
+              <a
+                href="#"
+                className="w-10 h-10 bg-slate-800 hover:bg-violet-600 rounded-full flex items-center justify-center transition-colors"
+              >
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="w-10 h-10 bg-slate-800 hover:bg-violet-600 rounded-full flex items-center justify-center transition-colors">
+              <a
+                href="#"
+                className="w-10 h-10 bg-slate-800 hover:bg-violet-600 rounded-full flex items-center justify-center transition-colors"
+              >
                 <Linkedin className="w-5 h-5" />
               </a>
             </div>
           </div>
 
           <div>
-            <h4 className="font-semibold text-lg mb-4">{t?.footer?.quickLinks ?? 'Links Rápidos'}</h4>
+            <h4 className="font-semibold text-lg mb-4">
+              {t?.footer?.quickLinks ?? "Links Rápidos"}
+            </h4>
             <ul className="space-y-2">
               {[
-                { href: '#home', label: t?.nav?.home ?? 'Início' },
-                { href: '#about', label: t?.nav?.about ?? 'Sobre' },
-                { href: '#services', label: t?.nav?.services ?? 'Serviços' },
-                { href: '#portfolio', label: t?.nav?.portfolio ?? 'Portfólio' }
-              ]?.map?.((link) => (
-                <li key={link?.href}>
+                { href: "#home", label: t?.nav?.home ?? "Início" },
+                { href: "#about", label: t?.nav?.about ?? "Sobre" },
+                { href: "#services", label: t?.nav?.services ?? "Serviços" },
+                { href: "#portfolio", label: t?.nav?.portfolio ?? "Portfólio" },
+              ].map((link) => (
+                <li key={link.href}>
                   <button
-                    onClick={() => scrollTo(link?.href ?? '')}
+                    onClick={() => scrollTo(link.href)}
                     className="text-slate-400 hover:text-violet-400 transition-colors"
                   >
-                    {link?.label}
+                    {link.label}
                   </button>
                 </li>
-              )) ?? null}
+              ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="font-semibold text-lg mb-4">{t?.footer?.contact ?? 'Contato'}</h4>
+            <h4 className="font-semibold text-lg mb-4">
+              {t?.footer?.contact ?? "Contato"}
+            </h4>
             <ul className="space-y-3">
               <li className="flex items-center gap-3 text-slate-400">
                 <Phone className="w-5 h-5 text-violet-400" />
@@ -68,7 +100,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3 text-slate-400">
                 <Mail className="w-5 h-5 text-violet-400" />
-                contato@getglobebridge.com
+                {mail}
               </li>
               <li className="flex items-center gap-3 text-slate-400">
                 <MapPin className="w-5 h-5 text-violet-400" />
@@ -79,7 +111,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-slate-800 pt-8 text-center text-slate-500 text-sm">
-          © {new Date().getFullYear()} Get Globe Bridge. {t?.footer?.rights ?? 'Todos os direitos reservados.'}
+          © {new Date().getFullYear()} Get Globe Bridge. {t?.footer?.rights ?? "Todos os direitos reservados."}
         </div>
       </div>
     </footer>

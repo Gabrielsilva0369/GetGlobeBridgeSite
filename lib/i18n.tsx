@@ -184,9 +184,14 @@ const translations = {
 
 /** 3️⃣ WhatsApp por idioma */
 const whatsappNumbers: Record<Locale, string> = {
-  "pt-BR": "+5511999999999",
-  "pt-PT": "+351912345678",
-  "en-US": "+15551234567",
+  "pt-BR": "+351966939673",
+  "pt-PT": "+351966939673",
+  "en-US": "+351966939673",
+};
+const mails: Record<Locale, string> = {
+  "pt-BR": "contato@getglobe.com.br",
+  "pt-PT": "contato@getglobe.com.br",
+  "en-US": "contato@getglobe.com.br",
 };
 
 /** 4️⃣ Contexto e Provider */
