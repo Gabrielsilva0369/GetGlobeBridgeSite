@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Eduardo Advogados — Advocacia Estratégica</title>
+  <script src="assets/resource_3fa48481346f.js"></script>
+  <script src="assets/lucide_latest_2eebd0ebe8c2.js"></script>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="assets/css2_2832c0ff631d.css" rel="stylesheet"/>
+  <link href="assets/css2_2b2d87bc82d8.css" rel="stylesheet"/>
+
+  <style>
+    ::-webkit-scrollbar { width: 0px; }
+
+    /* ─── Primary Button ─── */
+    .button-custom {
+      cursor: pointer;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: all 0.25s ease;
+      background: radial-gradient(65.28% 65.28% at 50% 100%, rgba(251,191,36,.8) 0%, rgba(251,191,36,0) 100%), linear-gradient(0deg,#ea580c,#ea580c);
+      border-radius: 9999px;
+      border: none;
+      padding: 10px 28px;
+      min-height: 48px;
+    }
+    .button-custom::before {
+      content:"";
+      position:absolute;
+      inset:1px;
+      background:linear-gradient(177.95deg,rgba(255,255,255,.3) 0%,rgba(255,255,255,0) 100%);
+      border-radius:9999px;
+      transition:all .5s ease-in-out;
+      z-index:0;
+    }
+    .button-custom::after {
+      content:"";
+      position:absolute;
+      inset:2px;
+      background:radial-gradient(65.28% 65.28% at 50% 100%,rgba(251,191,36,.8) 0%,rgba(251,191,36,0) 100%),linear-gradient(0deg,#ea580c,#ea580c);
+      border-radius:9999px;
+      transition:all .5s ease-in-out;
+      z-index:0;
+    }
+    .button-custom:hover { transform: scale(1.03); box-shadow: 0 0 40px 8px rgba(249,115,22,.4); }
+    .button-custom:hover .inner svg.icon { transform: translateX(2px); }
+    .inner { z-index:2; gap:6px; position:relative; width:100%; color:white; display:inline-flex; align-items:center; justify-content:center; font-size:.9375rem; font-weight:600; letter-spacing:-.01em; }
+    .inner svg.icon { width:16px; height:16px; transition:transform .3s ease; stroke:white; fill:none; }
+
+    /* Particles */
+    .points_wrapper { overflow:hidden; width:100%; height:100%; pointer-events:none; position:absolute; z-index:1; }
+    .points_wrapper .point { bottom:-10px; position:absolute; animation:floating-points infinite ease-in-out; pointer-events:none; width:2px; height:2px; background-color:#fff; border-radius:9999px; }
+    @keyframes floating-points { 0%{transform:translateY(0)} 85%{opacity:0} 100%{transform:translateY(-55px);opacity:0} }
+    .points_wrapper .point:nth-child(1){left:10%;opacity:1;animation-duration:2.35s;animation-delay:.2s}
+    .points_wrapper .point:nth-child(2){left:30%;opacity:.7;animation-duration:2.5s;animation-delay:.5s}
+    .points_wrapper .point:nth-child(3){left:25%;opacity:.8;animation-duration:2.2s;animation-delay:.1s}
+    .points_wrapper .point:nth-child(4){left:44%;opacity:.6;animation-duration:2.05s}
+    .points_wrapper .point:nth-child(5){left:50%;opacity:1;animation-duration:1.9s}
+    .points_wrapper .point:nth-child(6){left:75%;opacity:.5;animation-duration:1.5s;animation-delay:1.5s}
+    .points_wrapper .point:nth-child(7){left:88%;opacity:.9;animation-duration:2.2s;animation-delay:.2s}
+
+    /* ─── Beam Animations ─── */
+    @keyframes beam-fall {
+      0%   { transform:translateY(-100%); opacity:0; }
+      5%   { opacity:.5; }
+      50%  { opacity:1; }
+      95%  { opacity:.5; }
+      100% { transform:translateY(120vh); opacity:0; }
+    }
+    .animate-beam-1 { animation:beam-fall 6s linear infinite; }
+    .animate-beam-2 { animation:beam-fall 8s linear infinite; animation-delay:2s; }
+    .animate-beam-3 { animation:beam-fall 7s linear infinite; animation-delay:4s; }
+
+    /* ─── Scroll Animations ─── */
+    @keyframes fadeSlideIn {
+      0%   { opacity:0; transform:translateY(30px); filter:blur(8px); }
+      100% { opacity:1; transform:translateY(0);    filter:blur(0);   }
+    }
+    .animate-on-scroll { animation-play-state:paused !important; }
+    .animate-on-scroll.animate { animation-play-state:running !important; }
+
+    /* ─── Border Gradient ─── */
+    [style*="--border-gradient"]::before {
+      content:"";
+      position:absolute;
+      inset:0;
+      padding:1px;
+      border-radius:var(--border-radius-before,inherit);
+      -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+      -webkit-mask-composite:xor;
+      mask-composite:exclude;
+      background:var(--border-gradient);
+      pointer-events:none;
+    }
+
+    /* ─── Practice Area Cards ─── */
+    .area-card {
+      position:relative;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all .35s cubic-bezier(.2,.8,.2,1);
+      overflow: hidden;
+    }
+    .area-card::before {
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:16px;
+      background: radial-gradient(ellipse at top left, rgba(249,115,22,.06) 0%, transparent 60%);
+      opacity:0;
+      transition:opacity .4s ease;
+    }
+    .area-card:hover::before { opacity:1; }
+    .area-card:hover {
+      border-color: rgba(249,115,22,.25);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,.4), 0 0 40px rgba(249,115,22,.08);
+    }
+    .area-icon {
+      width:44px;
+      height:44px;
+      border-radius:10px;
+      background: linear-gradient(135deg, rgba(249,115,22,.15), rgba(249,115,22,.05));
+      border: 1px solid rgba(249,115,22,.2);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin-bottom:1.25rem;
+    }
+
+    /* ─── Stats ─── */
+    .stat-divider { border-right:1px solid rgba(255,255,255,.06); }
+    @media(max-width:640px){ .stat-divider{ border-right:none; border-bottom:1px solid rgba(255,255,255,.06); } }
+
+    /* ─── Glass Button (secondary) ─── */
+    .btn-glass {
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      padding: 12px 28px;
+      border-radius:9999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      backdrop-filter:blur(12px);
+      color:rgba(255,255,255,.85);
+      font-size:.9375rem;
+      font-weight:500;
+      letter-spacing:-.01em;
+      transition:all .25s ease;
+      cursor:pointer;
+      text-decoration:none;
+    }
+    .btn-glass:hover {
+      background:rgba(255,255,255,.09);
+      border-color:rgba(255,255,255,.2);
+      color:white;
+    }
+
+    /* ─── Nav mobile toggle ─── */
+    .mobile-menu { display:none; }
+    @media(max-width:767px){
+      .nav-links { display:none; }
+      .mobile-menu { display:flex; }
+    }
+
+    /* ─── Noise texture overlay ─── */
+    .noise-overlay {
+      position:fixed;
+      inset:0;
+      z-index:1;
+      pointer-events:none;
+      opacity:.025;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    /* ─── Horizontal rule accent ─── */
+    .accent-line {
+      width:48px;
+      height:2px;
+      background:linear-gradient(90deg,#ea580c,transparent);
+      border-radius:9999px;
+    }
+  </style>
+
+  <script>
+    tailwind.config = { theme:{ extend:{} } };
+  </script>
+  <script>
+    (function(){
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("animate"); io.unobserve(e.target); } });
+      },{threshold:0.12,rootMargin:"0px 0px -8% 0px"});
+      document.addEventListener("DOMContentLoaded",()=>{
+        document.querySelectorAll(".animate-on-scroll").forEach(el=>io.observe(el));
+      });
+    })();
+  </script>
+</head>
+
+<body class="bg-[#050505] text-white font-sans antialiased overflow-x-hidden selection:bg-orange-500/30 flex flex-col min-h-screen">
+
+  <!-- Noise texture -->
+  <div class="noise-overlay"></div>
+
+  <!-- ═══════════════════════════════════════════════
+       BACKGROUND LAYER
+  ════════════════════════════════════════════════ -->
+  <div class="fixed z-0 top-0 right-0 bottom-0 left-0">
+    <!-- Deep dark base -->
+    <div class="absolute inset-0 bg-[#050505]"></div>
+    <!-- Subtle radial warm glow -->
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_60%_-10%,rgba(120,40,10,0.18),transparent)]"></div>
+    <!-- Bottom fade -->
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050505]"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       VERTICAL GRID + FALLING BEAMS
+  ════════════════════════════════════════════════ -->
+  <div class="fixed inset-0 z-0 pointer-events-none flex w-full max-w-7xl mx-auto border-r border-white/[0.04] opacity-70">
+    <div class="flex-1 border-l border-white/[0.04] h-full relative overflow-hidden">
+      <span class="absolute bottom-8 left-4 text-white/[0.07] text-xs font-mono">01</span>
+    </div>
+    <div class="flex-1 border-l border-white/[0.04] h-full relative overflow-hidden">
+      <div class="absolute top-0 -left-px w-px h-64 bg-gradient-to-b from-transparent via-orange-500/50 to-transparent animate-beam-1"></div>
+      <span class="absolute bottom-8 left-4 text-white/[0.07] text-xs font-mono">02</span>
+    </div>
+    <div class="flex-1 border-l border-white/[0.04] h-full flex justify-center relative overflow-hidden">
+      <div class="absolute top-0 -left-px w-px h-80 bg-gradient-to-b from-transparent via-orange-500/70 to-transparent animate-beam-2"></div>
+      <div class="h-full border-r border-dashed border-orange-500/10 w-px"></div>
+      <span class="absolute bottom-8 text-orange-500/20 text-xs font-mono">03</span>
+    </div>
+    <div class="flex-1 border-l border-white/[0.04] h-full relative overflow-hidden">
+      <div class="absolute top-0 -left-px w-px h-48 bg-gradient-to-b from-transparent via-orange-500/40 to-transparent animate-beam-3"></div>
+      <span class="absolute bottom-8 left-4 text-white/[0.07] text-xs font-mono">04</span>
+    </div>
+    <div class="flex-1 border-l border-white/[0.04] h-full relative overflow-hidden">
+      <span class="absolute bottom-8 left-4 text-white/[0.07] text-xs font-mono">05</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       CONTENT WRAPPER
+  ════════════════════════════════════════════════ -->
+  <div class="relative z-10 flex-1 flex flex-col w-full max-w-7xl mx-auto">
+
+    <!-- ╔══════════════════════════════════════════╗
+         ║  DOBRA 1 — NAVEGAÇÃO + HERO              ║
+         ╚══════════════════════════════════════════╝ -->
+
+    <!-- ─── NAVEGAÇÃO ─── -->
+    <nav class="flex justify-between items-center py-7 px-6 md:px-10 sticky top-0 z-50 bg-[#050505]/80 backdrop-blur-md border-b border-white/[0.05]">
+
+      <!-- Logo / Nome -->
+      <div class="flex items-center gap-3 group cursor-pointer">
+        <div class="flex bg-gradient-to-tr from-orange-600 to-amber-500 w-9 h-9 rounded-full items-center justify-center shadow-lg shadow-orange-500/30 flex-shrink-0"
+             style="position:relative;--border-gradient:linear-gradient(180deg,rgba(255,255,255,.45),rgba(255,255,255,0));--border-radius-before:9999px">
+          <!-- Scales of justice icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v18M3 9l9-6 9 6M5 11l-2 6h4l-2-6zm14 0l-2 6h4l-2-6z"/>
+          </svg>
+        </div>
+        <div class="flex flex-col leading-tight">
+          <span class="text-sm font-bold tracking-tight text-white">Eduardo</span>
+          <span class="text-[10px] tracking-widest uppercase text-orange-500/70 font-medium">Advocacia</span>
+        </div>
+      </div>
+
+      <!-- Links de navegação (desktop) -->
+      <div class="nav-links hidden md:flex items-center gap-8">
+        <a href="#sobre"   class="text-xs font-medium tracking-widest uppercase text-neutral-400 hover:text-white transition-colors duration-200">Sobre</a>
+        <a href="#areas"   class="text-xs font-medium tracking-widest uppercase text-neutral-400 hover:text-white transition-colors duration-200">Áreas</a>
+        <a href="#casos"   class="text-xs font-medium tracking-widest uppercase text-neutral-400 hover:text-white transition-colors duration-200">Casos</a>
+        <a href="#contato" class="text-xs font-medium tracking-widest uppercase text-neutral-400 hover:text-white transition-colors duration-200">Contato</a>
+      </div>
+
+      <!-- CTA Nav -->
+      <div class="flex items-center gap-3">
+        <a href="#contato" class="hidden md:flex items-center gap-2 text-xs font-semibold tracking-widest uppercase text-orange-400 hover:text-orange-300 transition-colors">
+          <span class="flex h-1.5 w-1.5 rounded-full bg-orange-500 animate-pulse"></span>
+          Consulta Gratuita
+        </a>
+        <!-- Mobile menu -->
+        <button class="mobile-menu md:hidden flex items-center justify-center w-9 h-9 rounded-lg border border-white/10 text-white/60 hover:text-white transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="8"  x2="20" y2="8"/>
+            <line x1="4" y1="16" x2="20" y2="16"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- ─── HERO ─── -->
+    <section id="sobre" class="flex-1 grid grid-cols-1 lg:grid-cols-12 pt-20 pb-16 gap-x-6 gap-y-8 items-center min-h-[90vh]">
+
+      <!-- LEFT: conteúdo principal -->
+      <div class="col-span-1 lg:col-span-7 pl-6 md:pl-10 pt-10 lg:pt-0 flex flex-col justify-center">
+
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-2.5 mb-8 animate-on-scroll [animation:fadeSlideIn_1s_cubic-bezier(0.2,0.8,0.2,1)_0.1s_both]">
+          <span class="flex h-1.5 w-1.5 rounded-full bg-orange-500"></span>
+          <span class="text-xs font-bold tracking-widest uppercase text-orange-500/80">OAB/SP • Advocacia Estratégica</span>
+        </div>
+
+        <!-- Headline principal -->
+        <h1 class="text-5xl md:text-6xl lg:text-7xl leading-[0.92] tracking-tighter text-white font-medium mb-6 animate-on-scroll [animation:fadeSlideIn_1s_cubic-bezier(0.2,0.8,0.2,1)_0.2s_both]">
+          Defesa que
+          <br/>
+          <span class="font-instrument-serif italic text-transparent bg-clip-text bg-gradient-to-r from-white via-neutral-200 to-neutral-500">transforma</span>
+          <br/>
+          resultados.
+        </h1>
+
+        <!-- Subtítulo -->
+        <p class="leading-relaxed text-lg font-medium text-white/55 max-w-xl animate-on-scroll [animation:fadeSlideIn_1s_cubic-bezier(0.2,0.8,0.2,1)_0.35s_both]">
+          Eduardo Advogados atua com rigor técnico e estratégia personalizada para proteger seus direitos — em todas as instâncias.
+        </p>
+
+        <!-- CTAs -->
+        <div class="mt-10 flex flex-wrap gap-4 items-center animate-on-scroll [animation:fadeSlideIn_1s_cubic-bezier(0.2,0.8,0.2,1)_0.5s_both]">
+
+          <!-- Botão primário -->
+          <button class="button-custom" type="button">
+            <div class="points_wrapper">
+              <i class="point"></i><i class="point"></i><i class="point"></i>
+              <i class="point"></i><i class="point"></i><i class="point"></i>
+              <i class="point"></i>
+            </div>
+            <span class="inner">
+              Agendar Consulta
+              <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+              </svg>
+            </span>
+          </button>
+
+          <!-- Botão secundário -->
+          <a href="#areas" class="btn-glass">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            Áreas de Atuação
+          </a>
+        </div>
+
+        <!-- Trust indicators -->
+        <div class="mt-12 flex items-center gap-3 animate-on-scroll [animation:fadeSlideIn_1s_cubic-bezier(0.2,0.8,0.2,1)_0.65s_both]">
+          <!-- Avatares (clientes) -->
+          <div class="flex -space-x-2">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-neutral-600 to-neutral-800 border-2 border-[#050505] flex items-center justify-center text-[10px] font-bold text-white/70">MR</div>
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-orange-800 to-neutral-800 border-2 border-[#050505] flex items-center justify-center text-[10px] font-bold text-white/70">CS</div>
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-neutral-700 to-neutral-900 border-2 border-[#050505] flex items-center justify-center text-[10px] font-bold text-white/70">LP</div>
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-800 to-neutral-800 border-2 border-[#050505] flex items-center justify-center text-[10px] font-bold text-orange-400">+</div>
+          </div>
+          <div class="text-xs font-medium text-white/40 leading-snug">
+            <span class="text-white/70 font-semibold">+500 clientes</span> atendidos<br/>
+            com êxito em todo o Brasil
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Painel de credenciais -->
+      <div class="col-span-1 lg:col-span-5 pr-6 md:pr-10 pl-6 lg:pl-0 flex flex-col items-start lg:items-end justify-center gap-5 animate-on-scroll [animation:fadeSlideIn_1.1s_cubic-bezier(0.2,0.8,0.2,1)_0.4s_both]">
+
+        <!-- Card principal — foto / destaque -->
+        <div class="relative w-full max-w-sm">
+          <!-- Glow de fundo -->
+          <div class="absolute -inset-6 bg-orange-500/10 blur-3xl -z-10 rounded-3xl"></div>
+
+          <!-- Card de credencial -->
+          <div class="relative rounded-2xl bg-white/[0.04] border border-white/[0.08] overflow-hidden backdrop-blur-sm p-7"
+               style="position:relative;--border-gradient:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.02));--border-radius-before:16px">
+
+            <!-- Header do card -->
+            <div class="flex items-center gap-4 mb-6">
+              <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center shadow-lg shadow-orange-500/30 flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-white font-semibold text-base tracking-tight">Dr. Eduardo</div>
+                <div class="text-orange-400/80 text-xs font-medium tracking-wide">Advogado Sênior — OAB/SP</div>
+              </div>
+            </div>
+
+            <!-- Linha divisória -->
+            <div class="w-full h-px bg-gradient-to-r from-white/10 via-white/5 to-transparent mb-5"></div>
+
+            <!-- Especialidades -->
+            <div class="space-y-3 mb-6">
+              <div class="flex items-center gap-2.5">
+                <div class="w-1.5 h-1.5 rounded-full bg-orange-500 flex-shrink-0"></div>
+                <span class="text-sm text-white/65 font-medium">Direito Civil e Contratos</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <div class="w-1.5 h-1.5 rounded-full bg-orange-500/70 flex-shrink-0"></div>
+                <span class="text-sm text-white/65 font-medium">Direito Empresarial</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <div class="w-1.5 h-1.5 rounded-full bg-orange-500/50 flex-shrink-0"></div>
+                <span class="text-sm text-white/65 font-medium">Direito Trabalhista</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <div class="w-1.5 h-1.5 rounded-full bg-orange-500/30 flex-shrink-0"></div>
+                <span class="text-sm text-white/65 font-medium">Recuperação de Crédito</span>
+              </div>
+            </div>
+
+            <!-- Tag de disponibilidade -->
+            <div class="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1.5">
+              <span class="flex h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span class="text-xs font-medium text-emerald-400 tracking-wide">Disponível para consultas</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mini cards de stats -->
+        <div class="flex gap-3 w-full max-w-sm">
+          <div class="flex-1 rounded-xl bg-white/[0.03] border border-white/[0.06] p-4 text-center">
+            <div class="text-2xl font-bold text-white tracking-tight">18+</div>
+            <div class="text-[11px] text-white/40 font-medium mt-0.5 uppercase tracking-wider">Anos</div>
+          </div>
+          <div class="flex-1 rounded-xl bg-white/[0.03] border border-white/[0.06] p-4 text-center">
+            <div class="text-2xl font-bold text-white tracking-tight">92<span class="text-orange-500">%</span></div>
+            <div class="text-[11px] text-white/40 font-medium mt-0.5 uppercase tracking-wider">Êxito</div>
+          </div>
+          <div class="flex-1 rounded-xl bg-white/[0.03] border border-white/[0.06] p-4 text-center">
+            <div class="text-2xl font-bold text-white tracking-tight">500+</div>
+            <div class="text-[11px] text-white/40 font-medium mt-0.5 uppercase tracking-wider">Casos</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ╔══════════════════════════════════════════╗
+         ║  DOBRA 2 — ÁREAS DE ATUAÇÃO              ║
+         ╚══════════════════════════════════════════╝ -->
+    <section id="areas" class="w-full px-6 md:px-10 py-24 border-t border-white/[0.05]">
+
+      <!-- Cabeçalho da seção -->
+      <div class="mb-16">
+        <div class="inline-flex items-center gap-2.5 mb-5 animate-on-scroll [animation:fadeSlideIn_1s_cubic-bezier(0.2,0.8,0.2,1)_0.1s_both]">
+          <div class="accent-line"></div>
+          <span class="text-xs font-bold tracking-widest uppercase text-orange-500/70">Especialidades</span>
+        </div>
+
+        <div class="flex flex-col lg:flex-row lg:items-end gap-6 justify-between">
+          <div>
+            <h2 class="text-5xl md:text-6xl lg:text-7xl leading-[1.02] tracking-tighter text-white font-medium animate-on-scroll [animation:fadeSlideIn_1s_cubic-bezier(0.2,0.8,0.2,1)_0.2s_both]">
+              Áreas de<br/>
+              <span class="font-instrument-serif italic text-transparent bg-clip-text bg-gradient-to-r from-white via-neutral-200 to-neutral-500">atuação.</span>
+            </h2>
+          </div>
+          <p class="leading-relaxed text-base font-medium text-white/45 max-w-sm lg:text-right animate-on-scroll [animation:fadeSlideIn_1s_cubic-bezier(0.2,0.8,0.2,1)_0.35s_both]">
+            Soluções jurídicas abrangentes para pessoas físicas e empresas. Cada caso tratado com atenção individual e máximo comprometimento.
+          </p>
+        </div>
+      </div>
+
+      <!-- Grid de cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+        <!-- Card 1: Direito Civil -->
+        <div class="area-card animate-on-scroll [animation:fadeSlideIn_1s_cubic-bezier(0.2,0.8,0.2,1)_0.1s_both]">
+          <div class="area-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-white tracking-tight mb-2">Direito Civil</h3>
+          <p class="text-sm leading-relaxed text-white/45 font-medium mb-5">Contratos, responsabilidade civil, indenizações, direito de família e sucessões. Proteção integral dos seus interesses.</p>
+          <div class="flex items-center gap-2 text-xs font-semibold text-orange-400/80 uppercase tracking-widest group cursor-pointer">
+            <span>Saiba mais</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Card 2: Direito Empresarial -->
+        <div class="area-card animate-on-scroll [animation:fadeSlideIn_1s_cubic-bezier(0.2,0.8,0.2,1)_0.2s_both]">
+          <div class="area-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-white tracking-tight mb-2">Direito Empresarial</h3>
+          <p class="text-sm leading-relaxed text-white/45 font-medium mb-5">Constituição de empresas, contratos societários, fusões, aquisições e recuperação judicial. Sua empresa em boas mãos.</p>
+          <div class="flex items-center gap-2 text-xs font-semibold text-orange-400/80 uppercase tracking-widest group cursor-pointer">
+            <span>Saiba mais</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Card 3: Direito Trabalhista -->
+        <div class="area-card animate-on-scroll [animation:fadeSlideIn_1s_cubic-bezier(0.2,0.8,0.2,1)_0.3s_both]">
+          <div class="area-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-white tracking-tight mb-2">Direito Trabalhista</h3>
+          <p class="text-sm leading-relaxed text-white/45 font-medium mb-5">Rescisões, verbas rescisórias, assédio moral, reclamações trabalhistas e consultoria preventiva para empresas.</p>
+          <div class="flex items-center gap-2 text-xs font-semibold text-orange-400/80 uppercase tracking-widest group cursor-pointer">
+            <span>Saiba mais</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Card 4: Direito Imobiliário -->
+        <div class="area-card animate-on-scroll [animation:fadeSlideIn_1s_cubic-bezier(0.2,0.8,0.2,1)_0.15s_both]">
+          <div class="area-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-white tracking-tight mb-2">Direito Imobiliário</h3>
+          <p class="text-sm leading-relaxed text-white/45 font-medium mb-5">Compra, venda e locação de imóveis, usucapião, regularização fundiária e resolução de conflitos de posse.</p>
+          <div class="flex items-center gap-2 text-xs font-semibold text-orange-400/80 uppercase tracking-widest group cursor-pointer">
+            <span>Saiba mais</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Card 5: Direito do Consumidor -->
+        <div class="area-card animate-on-scroll [animation:fadeSlideIn_1s_cubic-bezier(0.2,0.8,0.2,1)_0.25s_both]">
+          <div class="area-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-white tracking-tight mb-2">Direito do Consumidor</h3>
+          <p class="text-sm leading-relaxed text-white/45 font-medium mb-5">Defesa em relações de consumo, cobranças indevidas, danos morais e revisão de contratos abusivos.</p>
+          <div class="flex items-center gap-2 text-xs font-semibold text-orange-400/80 uppercase tracking-widest group cursor-pointer">
+            <span>Saiba mais</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Card 6: Consultoria Preventiva — destaque -->
+        <div class="area-card relative animate-on-scroll [animation:fadeSlideIn_1s_cubic-bezier(0.2,0.8,0.2,1)_0.35s_both]"
+             style="background:linear-gradient(135deg,rgba(234,88,12,.08),rgba(234,88,12,.03));border-color:rgba(249,115,22,.18);">
+          <!-- Pulse badge -->
+          <div class="absolute top-4 right-4 flex items-center gap-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 px-2.5 py-1">
+            <span class="flex h-1.5 w-1.5 rounded-full bg-orange-500 animate-pulse"></span>
+            <span class="text-[10px] text-orange-400 font-semibold tracking-wider uppercase">Popular</span>
+          </div>
+          <div class="area-icon" style="background:linear-gradient(135deg,rgba(249,115,22,.2),rgba(249,115,22,.1));border-color:rgba(249,115,22,.3)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-white tracking-tight mb-2">Consultoria Preventiva</h3>
+          <p class="text-sm leading-relaxed text-white/45 font-medium mb-5">Assessoria jurídica contínua para blindar seu negócio ou patrimônio pessoal antes que problemas aconteçam.</p>
+          <div class="flex items-center gap-2 text-xs font-semibold text-orange-400 uppercase tracking-widest group cursor-pointer">
+            <span>Saiba mais</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- CTA final da dobra -->
+      <div class="mt-14 flex flex-col sm:flex-row items-center gap-5 justify-between border-t border-white/[0.05] pt-10 animate-on-scroll [animation:fadeSlideIn_1s_cubic-bezier(0.2,0.8,0.2,1)_0.4s_both]">
+        <p class="text-sm font-medium text-white/35 max-w-md text-center sm:text-left">
+          Não encontrou sua área? Cada situação tem uma solução. Entre em contato e analisaremos seu caso gratuitamente.
+        </p>
+        <button class="button-custom flex-shrink-0" type="button">
+          <div class="points_wrapper">
+            <i class="point"></i><i class="point"></i><i class="point"></i>
+            <i class="point"></i><i class="point"></i>
+          </div>
+          <span class="inner">
+            Falar com Eduardo
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+
+    </section>
+
+  </div><!-- /content wrapper -->
+
+</body>
+</html>

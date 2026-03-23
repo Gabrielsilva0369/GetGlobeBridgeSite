@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maranata Marketing | Agência de Soluções Digitais</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              500: 'hsl(260, 95%, 63%)',
+              600: 'hsl(250, 95%, 58%)',
+              700: 'hsl(270, 95%, 68%)',
+            },
+            secondary: {
+              800: 'hsl(280, 90%, 80%)',
+            },
+            vertex: {
+              orange: 'hsl(260, 95%, 63%)',
+              red: 'hsl(250, 95%, 58%)',
+              muted: '#8A8F98'
+            },
+            darkGray: {
+              50: 'hsl(225, 20%, 10%)',
+              100: 'hsl(225, 15%, 15%)',
+            }
+          },
+          fontFamily: {
+            jakarta: ['"Plus Jakarta Sans"', 'sans-serif'],
+            inter: ['Inter', 'sans-serif'],
+            mono: ['"Space Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Design System Styles */
+    .glass-effect {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .gradient-text {
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .modal-card {
+      border-radius: 1.5em;
+    }
+    .icon-circle {
+      height: 2.5rem;
+      width: 2.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+    .glow {
+      box-shadow: 0 0 30px rgba(139, 92, 246, 0.4);
+    }
+    .glass-button {
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: all 0.3s ease;
+    }
+    .glass-button:hover {
+      transform: translateY(-1px);
+    }
+
+    /* index.html Styles */
+    @keyframes animationIn {
+      0% { opacity: 0; transform: translateY(30px); filter: blur(8px); }
+      100% { opacity: 1; transform: translateY(0); filter: blur(0px); }
+    }
+    .animate-on-scroll { animation-play-state: paused !important; }
+    .animate-on-scroll.animate { animation-play-state: running !important; }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      animation: marquee 20s linear infinite;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* ── Resultados: Flashlight card (index2.html) ── */
+    .result-card { background: rgba(255,255,255,0.02); }
+    .result-card::before {
+      content: "";
+      position: absolute;
+      inset: 0px;
+      background: radial-gradient(
+        600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(139, 92, 246, 0.10),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.5s;
+      pointer-events: none;
+      z-index: 2;
+      border-radius: inherit;
+    }
+    .result-card:hover::before { opacity: 1; }
+
+    /* Metric count-up shimmer */
+    @keyframes metricGlow {
+      0%, 100% { text-shadow: 0 0 20px rgba(139,92,246,0.4); }
+      50% { text-shadow: 0 0 40px rgba(139,92,246,0.8), 0 0 80px rgba(139,92,246,0.3); }
+    }
+    .metric-glow { animation: metricGlow 3s ease-in-out infinite; }
+
+    /* Scan line shimmer across cards */
+    @keyframes scanLine {
+      from { transform: translateX(-100%) skewX(-15deg); }
+      to   { transform: translateX(300%)  skewX(-15deg); }
+    }
+    .scan-shimmer {
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+      width: 40%; height: 100%;
+      animation: scanLine 3.5s ease-in-out infinite;
+      pointer-events: none; z-index: 3;
+    }
+
+    /* Spinning conic border (reutilizado do hero) */
+    @keyframes spinBeam { to { transform: rotate(360deg); } }
+
+    /* Stats bar counter animation */
+    @keyframes barFill {
+      from { width: 0; }
+    }
+
+    /* --- Workflow Pulse Animations --- */
+    @keyframes wf-pulse-dim {
+      0%, 100% { border-color: rgba(255, 255, 255, 0.1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+      50% { border-color: rgba(255, 255, 255, 0.25); box-shadow: 0 0 15px 0 rgba(255, 255, 255, 0.05); }
+    }
+    .wf-box-dim {
+      animation: wf-pulse-dim 3s ease-in-out infinite;
+    }
+
+    @keyframes wf-pulse-strong {
+      0%, 100% { border-color: hsl(260, 95%, 63%); box-shadow: 0 0 15px 0 hsla(260, 95%, 63%, 0.3); }
+      50% { border-color: hsl(250, 95%, 58%); box-shadow: 0 0 30px 5px hsla(260, 95%, 63%, 0.6); }
+    }
+    .wf-box-strong {
+      animation: wf-pulse-strong 2s ease-in-out infinite;
+    }
+
+    @keyframes wf-pulse-burst {
+      0% { border-color: #fff; box-shadow: 0 0 20px hsla(260, 95%, 63%, 0.6); transform: scale(1); }
+      30% { border-color: #fff; box-shadow: 0 0 50px 10px hsla(260, 95%, 63%, 1); transform: scale(1.05); }
+      100% { border-color: hsl(260, 95%, 63%); box-shadow: 0 0 15px 0 hsla(260, 95%, 63%, 0.3); transform: scale(1); }
+    }
+    .wf-box-burst {
+      animation: wf-pulse-burst 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
+    }
+
+    /* --- Workflow Ripple Animations (Ondas) --- */
+    @keyframes wf-ring-pulse-dim {
+      0% { transform: scale(1); opacity: 0.15; border-color: rgba(255, 255, 255, 0.2); }
+      50% { transform: scale(1.3); opacity: 0; border-color: rgba(255, 255, 255, 0.1); }
+      100% { transform: scale(1.3); opacity: 0; border-color: rgba(255, 255, 255, 0.1); }
+    }
+    .wf-ring-dim {
+      animation: wf-ring-pulse-dim 3s ease-out infinite;
+    }
+
+    @keyframes wf-ring-pulse-strong {
+      0% { transform: scale(1); opacity: 0.5; border-color: hsl(260, 95%, 63%); }
+      60% { transform: scale(1.5); opacity: 0; border-color: hsl(260, 95%, 63%); }
+      100% { transform: scale(1.5); opacity: 0; border-color: hsl(260, 95%, 63%); }
+    }
+    .wf-ring-strong {
+      animation: wf-ring-pulse-strong 2s ease-out infinite;
+    }
+
+    @keyframes wf-ring-pulse-burst {
+      0% { transform: scale(1); opacity: 0.8; border-color: #fff; border-width: 2px; }
+      100% { transform: scale(1.7); opacity: 0; border-color: hsl(260, 95%, 63%); border-width: 1px; }
+    }
+    .wf-ring-burst {
+      animation: wf-ring-pulse-burst 0.6s ease-out forwards !important;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-darkGray-100 via-darkGray-50 to-slate-900 text-white font-inter min-h-screen antialiased overflow-x-hidden">
+
+  <!-- Animated Background -->
+  <!-- Animated Background Video -->
+  <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+    <video autoplay muted loop playsinline class="absolute w-full h-full object-cover opacity-20 mix-blend-screen">
+      <source src="hero-video.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="fixed inset-0 -z-10">
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-500/20 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-darkGray-100/60 border-b border-white/5 transition-all">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3 cursor-pointer hover:scale-105 transition-transform">
+        <div class="icon-circle shadow-lg border-primary-500/50 bg-primary-500/10">
+          <i data-lucide="trending-up" class="w-5 h-5 text-primary-500"></i>
+        </div>
+        <h1 class="text-xl font-bold font-jakarta tracking-tight">Maranata</h1>
+      </div>
+      <div class="hidden md:flex gap-8 text-sm">
+        <a href="#hero" class="opacity-70 hover:opacity-100 hover:text-primary-400 transition-all font-medium py-2 relative group">
+           Início
+           <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 transition-all group-hover:w-full"></span>
+        </a>
+        <a href="#servicos" class="opacity-70 hover:opacity-100 hover:text-primary-400 transition-all font-medium py-2 relative group">
+           Agência
+           <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 transition-all group-hover:w-full"></span>
+        </a>
+        <a href="#solucoes" class="opacity-70 hover:opacity-100 hover:text-primary-400 transition-all font-medium py-2 relative group">
+           Serviços
+           <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 transition-all group-hover:w-full"></span>
+        </a>
+      </div>
+      <button class="px-5 py-2.5 rounded-xl glass-button bg-primary-500/20 border border-primary-500/40 font-medium hover:bg-primary-500/30 transition-all text-sm hidden sm:block">
+        Escalar Agora
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="hero" class="min-h-screen flex items-center justify-center pt-28 pb-16 px-6 relative overflow-hidden">
+    <!-- Grid Pattern overlay -->
+    <div class="absolute inset-0 z-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.4) 1px, transparent 0); background-size: 32px 32px;"></div>
+
+    <div class="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-8 items-center z-10">
+      
+      <!-- Left: Text Content -->
+      <div class="space-y-8 flex flex-col items-start [animation:animationIn_0.8s_ease-out_0.2s_both] animate-on-scroll">
+        
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-primary-400 mb-2 backdrop-blur-md">
+          <span class="w-2 h-2 rounded-full bg-primary-500 animate-pulse relative"></span>
+          MARKETING PREMIUM
+        </div>
+        
+        <h1 class="text-5xl md:text-7xl lg:text-[5rem] font-bold font-jakarta tracking-tighter leading-[1.05]">
+          Acelere o
+          <br class="hidden sm:block" />
+          <span class="gradient-text bg-gradient-to-r from-white via-primary-300 to-primary-600 drop-shadow-sm">seu lucro.</span>
+        </h1>
+        
+        <p class="text-lg opacity-70 max-w-lg leading-relaxed font-inter font-light">
+          A Maranata Marketing transforma a presença digital da sua marca com estratégias robustas, design líquido e tráfego altamente qualificado.
+        </p>
+
+        <!-- Border Beam Button (from index.html) -->
+        <button class="group inline-flex overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_30px_rgba(139,92,246,0.3)] rounded-full pt-[1px] pr-[1px] pb-[1px] pl-[1px] relative items-center justify-center mt-4">
+          <!-- Spinning Border Beam -->
+          <span class="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,transparent_75%,#8b5cf6_100%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
+          <!-- Default Static Border -->
+          <span class="absolute inset-0 rounded-full bg-white/10 transition-opacity duration-300 group-hover:opacity-0"></span>
+          
+          <!-- 3D Button Surface -->
+          <span class="flex items-center justify-center gap-3 uppercase transition-colors duration-300 group-hover:text-white text-xs sm:text-sm font-semibold text-zinc-300 tracking-widest bg-gradient-to-b from-[#1a1728] to-[#100d17] w-full h-full rounded-full px-8 py-4 relative shadow-[inset_0_1px_0_rgba(255,255,255,0.15)] backdrop-blur-md">
+            <span class="relative z-10">Agendar Consultoria</span>
+            <i data-lucide="arrow-right" class="w-4 h-4 relative z-10 transition-transform duration-300 group-hover:translate-x-1"></i>
+          </span>
+        </button>
+
+        <!-- User Avatars / Social Proof mini -->
+        <div class="flex items-center gap-5 mt-8 pt-8 border-t border-white/10 w-full max-w-sm [animation:animationIn_0.8s_ease-out_0.4s_both] animate-on-scroll">
+          <div class="flex -space-x-4">
+            <img src="https://i.pravatar.cc/100?img=11" class="w-12 h-12 rounded-full border-[3px] border-darkGray-100 object-cover" />
+            <img src="https://i.pravatar.cc/100?img=12" class="w-12 h-12 rounded-full border-[3px] border-darkGray-100 object-cover" />
+            <img src="https://i.pravatar.cc/100?img=33" class="w-12 h-12 rounded-full border-[3px] border-darkGray-100 object-cover" />
+            <div class="w-12 h-12 rounded-full border-[3px] border-darkGray-100 bg-primary-600/20 backdrop-blur-md flex items-center justify-center text-xs font-bold font-mono text-primary-300 z-10">
+               +90
+            </div>
+          </div>
+          <div class="text-sm">
+            <p class="font-medium font-jakarta mb-0.5">Empresas Escaladas</p>
+            <div class="flex items-center gap-1">
+              <i data-lucide="star" class="w-3.5 h-3.5 fill-yellow-500 text-yellow-500"></i>
+              <i data-lucide="star" class="w-3.5 h-3.5 fill-yellow-500 text-yellow-500"></i>
+              <i data-lucide="star" class="w-3.5 h-3.5 fill-yellow-500 text-yellow-500"></i>
+              <i data-lucide="star" class="w-3.5 h-3.5 fill-yellow-500 text-yellow-500"></i>
+              <i data-lucide="star" class="w-3.5 h-3.5 fill-yellow-500 text-yellow-500"></i>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right: Glass Modal Image/Visuals -->
+      <div class="relative w-full h-[500px] lg:h-[600px] flex items-center justify-center [animation:animationIn_0.8s_ease-out_0.5s_both] animate-on-scroll">
+        
+        <!-- Blurred abstract element behind -->
+        <div class="absolute w-64 h-64 bg-primary-500/40 rounded-full blur-[80px] -right-10 top-0"></div>
+        <div class="absolute w-64 h-64 bg-secondary-800/20 rounded-full blur-[80px] -left-10 bottom-0"></div>
+        
+        <!-- Big Glass Card -->
+        <div class="modal-card w-full max-w-[420px] glass-effect relative z-10 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-3xl border border-white/20 shadow-2xl p-8 flex flex-col justify-between h-[450px]">
+          
+          <div class="absolute inset-0 rounded-[1.5em] border border-white/40 [mask-image:linear-gradient(135deg,white,transparent_50%)] pointer-events-none"></div>
+          <div class="absolute inset-0 rounded-[1.5em] border border-primary-500/50 [mask-image:linear-gradient(135deg,transparent_50%,white)] pointer-events-none"></div>
+
+          <!-- Card Header Info -->
+          <div class="flex items-start justify-between mb-8 relative">
+             <div class="icon-circle shadow-lg bg-white/10 border-white/20">
+              <i data-lucide="bar-chart-3" class="w-5 h-5 text-primary-400"></i>
+            </div>
+            <span class="text-[10px] px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono tracking-widest flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              Crescimento Ativo
+            </span>
+          </div>
+
+          <!-- Abstract Chart representation -->
+          <div class="flex-1 flex flex-col justify-end space-y-4 relative">
+             <h3 class="text-3xl font-jakarta font-semibold tracking-tight text-white mb-2 leading-tight">
+               Faturamento <br/> <span class="gradient-text bg-gradient-to-r from-primary-400 to-primary-600 drop-shadow-md">+285%</span>
+             </h3>
+             <p class="text-xs text-white/50 font-mono border-l-2 border-primary-500/50 pl-3 mb-6">Média de ROAS dos últimos 90 dias com nossa metodologia.</p>
+            
+             <div class="w-full h-24 flex items-end gap-2.5">
+              <div class="w-1/5 bg-white/10 rounded-t h-[30%] hover:bg-primary-500/50 transition-colors"></div>
+              <div class="w-1/5 bg-white/10 rounded-t h-[45%] hover:bg-primary-500/50 transition-colors"></div>
+              <div class="w-1/5 bg-white/20 rounded-t h-[60%] hover:bg-primary-500/50 transition-colors"></div>
+              <div class="w-1/5 bg-primary-500/50 rounded-t h-[80%] relative glow transform origin-bottom hover:scale-y-110 transition-transform cursor-pointer">
+                 <span class="absolute -top-7 left-1/2 -translate-x-1/2 text-[10px] font-bold font-mono text-white/70">M3</span>
+              </div>
+              <div class="w-1/5 bg-primary-500 rounded-t h-full relative glow transform origin-bottom hover:scale-y-[1.05] transition-transform cursor-pointer">
+                 <span class="absolute -top-7 left-1/2 -translate-x-1/2 text-[10px] font-bold font-mono text-white">M4</span>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+
+        <!-- Floating floating card detail -->
+        <div class="absolute -bottom-6 -left-8 md:lg:-left-12 glass-effect bg-white/10 border border-white/20 p-4 rounded-xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] z-20 flex items-center gap-4 [animation:animationIn_1s_ease-out_0.8s_both] animate-on-scroll">
+           <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
+             <i data-lucide="check" class="w-5 h-5 text-emerald-400"></i>
+           </div>
+           <div>
+              <p class="text-sm font-semibold text-white">Metas Batidas</p>
+              <p class="text-[10px] text-white/60 font-mono mt-0.5">Campanhas Validadas</p>
+           </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       Section: Resultados Reais
+       ══════════════════════════════════════════ -->
+  <section id="resultados" class="py-28 relative z-10 overflow-hidden bg-black/10">
+
+    <!-- Grid dot pattern -->
+    <div class="absolute inset-0 opacity-[0.04] pointer-events-none" style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.5) 1px, transparent 0); background-size: 28px 28px;"></div>
+
+    <!-- Ambient glows -->
+    <div class="absolute top-20 left-1/4 w-[600px] h-[600px] bg-primary-500/[0.07] rounded-full blur-[140px] pointer-events-none"></div>
+    <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-primary-600/[0.06] rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-6">
+
+      <!-- ── Header ── -->
+      <div class="text-center mb-20 space-y-5 [animation:animationIn_0.8s_ease-out_0.1s_both] animate-on-scroll">
+        <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-primary-500/25 bg-primary-500/8 backdrop-blur-sm">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span>
+          <span class="text-[10px] uppercase tracking-[0.22em] text-emerald-400 font-mono">Casos Reais · Dados Verificados</span>
+        </div>
+
+        <h2 class="text-4xl md:text-6xl font-jakarta font-bold tracking-tight leading-tight">
+          Empresas que confiaram na Maranata<br class="hidden md:block"/>
+          <span class="text-primary-400" style="text-shadow: 0 0 40px rgba(139,92,246,0.5);">cresceram assim:</span>
+        </h2>
+        <p class="text-white/50 max-w-lg mx-auto font-inter font-light text-base leading-relaxed">
+          Não vendemos promessa. Vendemos método — e os números abaixo provam.
+        </p>
+      </div>
+
+      <!-- ── Result Cards ── -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+
+        <!-- Card 1: E-commerce de Cosméticos -->
+        <div
+          class="result-card group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.025] backdrop-blur-xl p-8 flex flex-col transition-all duration-500 hover:-translate-y-2 hover:border-primary-500/35 hover:shadow-[0_20px_60px_rgba(139,92,246,0.15)] [animation:animationIn_0.8s_ease-out_0.2s_both] animate-on-scroll cursor-pointer"
+          onmousemove="var r=this.getBoundingClientRect();this.style.setProperty('--mouse-x',`${event.clientX-r.left}px`);this.style.setProperty('--mouse-y',`${event.clientY-r.top}px`)"
+        >
+          <!-- Scan shimmer -->
+          <div class="scan-shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+          <!-- Inner top glow -->
+          <div class="absolute -top-10 -right-10 w-40 h-40 bg-primary-500/15 rounded-full blur-[50px] group-hover:bg-primary-500/30 transition-colors duration-500 pointer-events-none"></div>
+
+          <!-- Header row -->
+          <div class="flex items-start justify-between mb-8 relative z-10">
+            <div class="w-11 h-11 rounded-xl bg-primary-500/10 border border-primary-500/20 flex items-center justify-center group-hover:bg-primary-500/20 group-hover:scale-110 transition-all duration-300">
+              <i data-lucide="shopping-bag" class="w-5 h-5 text-primary-400"></i>
+            </div>
+            <span class="text-[9px] px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono uppercase tracking-widest">E-commerce</span>
+          </div>
+
+          <!-- Big Metric -->
+          <div class="relative z-10 mb-1">
+            <span class="font-jakarta font-bold text-5xl md:text-6xl leading-none metric-glow gradient-text bg-gradient-to-br from-white to-primary-400">+312%</span>
+          </div>
+          <p class="text-white/50 text-sm font-inter font-light mb-6 relative z-10">em faturamento mensal</p>
+
+          <!-- Divider -->
+          <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-6"></div>
+
+          <!-- Context -->
+          <div class="space-y-3 relative z-10 flex-1">
+            <p class="text-white/75 font-jakarta font-semibold text-sm">Cosméticos · Nicho Premium</p>
+            <p class="text-white/40 text-xs font-inter leading-relaxed">De R$48k para R$197k/mês em 4 meses com estrutura completa de performance.</p>
+          </div>
+
+          <!-- Strategy tags -->
+          <div class="flex flex-wrap gap-2 mt-6 relative z-10">
+            <span class="text-[9px] px-2.5 py-1 rounded-full border border-primary-500/20 bg-primary-500/8 text-primary-300 font-mono uppercase tracking-wide">Meta Ads</span>
+            <span class="text-[9px] px-2.5 py-1 rounded-full border border-white/10 bg-white/5 text-white/50 font-mono uppercase tracking-wide">Funil de Conversão</span>
+            <span class="text-[9px] px-2.5 py-1 rounded-full border border-white/10 bg-white/5 text-white/50 font-mono uppercase tracking-wide">CRM</span>
+          </div>
+
+          <!-- Arrow CTA -->
+          <div class="flex items-center gap-2 mt-6 text-primary-400 text-xs font-jakarta font-semibold opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 relative z-10">
+            <span>Ver estratégia</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </div>
+        </div>
+
+        <!-- Card 2: Clínica Estética (Destaque — elevado) -->
+        <div
+          class="result-card group relative overflow-hidden rounded-[1.75rem] border border-primary-500/30 bg-gradient-to-br from-[#1c1030]/90 to-[#0e0918]/90 backdrop-blur-xl p-8 flex flex-col transition-all duration-500 hover:-translate-y-3 hover:border-primary-400/50 hover:shadow-[0_24px_70px_rgba(139,92,246,0.25)] md:-translate-y-4 [animation:animationIn_0.8s_ease-out_0.35s_both] animate-on-scroll cursor-pointer"
+          onmousemove="var r=this.getBoundingClientRect();this.style.setProperty('--mouse-x',`${event.clientX-r.left}px`);this.style.setProperty('--mouse-y',`${event.clientY-r.top}px`)"
+        >
+          <!-- Scan shimmer (always on for featured) -->
+          <div class="scan-shimmer"></div>
+
+          <!-- Inner glow -->
+          <div class="absolute -top-14 left-1/2 -translate-x-1/2 w-56 h-56 bg-primary-500/20 rounded-full blur-[60px] pointer-events-none"></div>
+
+          <!-- "Popular" badge -->
+          <div class="absolute top-5 right-5 z-10">
+            <span class="text-[9px] px-2.5 py-1 rounded-full bg-primary-500 text-white font-mono uppercase tracking-widest shadow-[0_0_20px_rgba(139,92,246,0.5)]">★ Destaque</span>
+          </div>
+
+          <!-- Header row -->
+          <div class="flex items-start justify-between mb-8 relative z-10">
+            <div class="w-11 h-11 rounded-xl bg-primary-500/20 border border-primary-400/30 flex items-center justify-center group-hover:scale-110 transition-all duration-300">
+              <i data-lucide="sparkles" class="w-5 h-5 text-primary-300"></i>
+            </div>
+            <span class="text-[9px] px-2.5 py-1 rounded-full bg-primary-500/15 text-primary-300 border border-primary-500/25 font-mono uppercase tracking-widest">Clínica</span>
+          </div>
+
+          <!-- Big Metric -->
+          <div class="relative z-10 mb-1">
+            <span class="font-jakarta font-bold text-5xl md:text-6xl leading-none metric-glow gradient-text bg-gradient-to-br from-white via-primary-200 to-primary-500">+147</span>
+          </div>
+          <p class="text-white/50 text-sm font-inter font-light mb-6 relative z-10">leads qualificados em 30 dias</p>
+
+          <!-- Divider -->
+          <div class="w-full h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent mb-6"></div>
+
+          <!-- Context -->
+          <div class="space-y-3 relative z-10 flex-1">
+            <p class="text-white/75 font-jakarta font-semibold text-sm">Estética Avançada · Local</p>
+            <p class="text-white/40 text-xs font-inter leading-relaxed">Agenda lotada em 3 semanas com tráfego local hiper-segmentado e LP de alta conversão.</p>
+          </div>
+
+          <!-- Strategy tags -->
+          <div class="flex flex-wrap gap-2 mt-6 relative z-10">
+            <span class="text-[9px] px-2.5 py-1 rounded-full border border-primary-400/30 bg-primary-500/15 text-primary-200 font-mono uppercase tracking-wide">Tráfego Local</span>
+            <span class="text-[9px] px-2.5 py-1 rounded-full border border-primary-500/20 bg-primary-500/8 text-primary-300 font-mono uppercase tracking-wide">Landing Page</span>
+            <span class="text-[9px] px-2.5 py-1 rounded-full border border-white/10 bg-white/5 text-white/50 font-mono uppercase tracking-wide">WhatsApp</span>
+          </div>
+
+          <!-- Arrow CTA -->
+          <div class="flex items-center gap-2 mt-6 text-primary-300 text-xs font-jakarta font-semibold opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 relative z-10">
+            <span>Ver estratégia</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </div>
+        </div>
+
+        <!-- Card 3: SaaS -->
+        <div
+          class="result-card group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.025] backdrop-blur-xl p-8 flex flex-col transition-all duration-500 hover:-translate-y-2 hover:border-primary-500/35 hover:shadow-[0_20px_60px_rgba(139,92,246,0.15)] [animation:animationIn_0.8s_ease-out_0.5s_both] animate-on-scroll cursor-pointer"
+          onmousemove="var r=this.getBoundingClientRect();this.style.setProperty('--mouse-x',`${event.clientX-r.left}px`);this.style.setProperty('--mouse-y',`${event.clientY-r.top}px`)"
+        >
+          <!-- Scan shimmer -->
+          <div class="scan-shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+          <!-- Inner top glow -->
+          <div class="absolute -top-10 -left-10 w-40 h-40 bg-primary-500/12 rounded-full blur-[50px] group-hover:bg-primary-500/25 transition-colors duration-500 pointer-events-none"></div>
+
+          <!-- Header row -->
+          <div class="flex items-start justify-between mb-8 relative z-10">
+            <div class="w-11 h-11 rounded-xl bg-primary-500/10 border border-primary-500/20 flex items-center justify-center group-hover:bg-primary-500/20 group-hover:scale-110 transition-all duration-300">
+              <i data-lucide="zap" class="w-5 h-5 text-primary-400"></i>
+            </div>
+            <span class="text-[9px] px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 font-mono uppercase tracking-widest">SaaS</span>
+          </div>
+
+          <!-- Big Metric -->
+          <div class="relative z-10 mb-1">
+            <span class="font-jakarta font-bold text-5xl md:text-6xl leading-none metric-glow gradient-text bg-gradient-to-br from-white to-primary-400">-42%</span>
+          </div>
+          <p class="text-white/50 text-sm font-inter font-light mb-6 relative z-10">de redução no CAC</p>
+
+          <!-- Divider -->
+          <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-6"></div>
+
+          <!-- Context -->
+          <div class="space-y-3 relative z-10 flex-1">
+            <p class="text-white/75 font-jakarta font-semibold text-sm">Software B2B · Escala Nacional</p>
+            <p class="text-white/40 text-xs font-inter leading-relaxed">Custo por aquisição caiu de R$980 para R$570 com funil avançado e otimização algorítmica.</p>
+          </div>
+
+          <!-- Strategy tags -->
+          <div class="flex flex-wrap gap-2 mt-6 relative z-10">
+            <span class="text-[9px] px-2.5 py-1 rounded-full border border-primary-500/20 bg-primary-500/8 text-primary-300 font-mono uppercase tracking-wide">Google Ads</span>
+            <span class="text-[9px] px-2.5 py-1 rounded-full border border-white/10 bg-white/5 text-white/50 font-mono uppercase tracking-wide">Funil Avançado</span>
+            <span class="text-[9px] px-2.5 py-1 rounded-full border border-white/10 bg-white/5 text-white/50 font-mono uppercase tracking-wide">A/B Tests</span>
+          </div>
+
+          <!-- Arrow CTA -->
+          <div class="flex items-center gap-2 mt-6 text-primary-400 text-xs font-jakarta font-semibold opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 relative z-10">
+            <span>Ver estratégia</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── Aggregate Stats Bar ── -->
+      <div class="glass-effect bg-white/[0.03] border border-white/8 rounded-2xl p-6 md:p-8 grid grid-cols-2 md:grid-cols-4 gap-6 mb-14 [animation:animationIn_0.8s_ease-out_0.6s_both] animate-on-scroll backdrop-blur-xl" style="border-color: rgba(255,255,255,0.06);">
+
+        <div class="text-center space-y-1">
+          <p class="font-jakarta font-bold text-3xl text-white">+90</p>
+          <p class="text-[10px] text-white/40 font-mono uppercase tracking-widest">Clientes Ativos</p>
+          <div class="w-full h-0.5 bg-white/5 rounded-full overflow-hidden mt-2">
+            <div class="h-full bg-primary-500 rounded-full glow" style="width: 90%; animation: barFill 1.5s ease-out forwards;"></div>
+          </div>
+        </div>
+
+        <div class="text-center space-y-1">
+          <p class="font-jakarta font-bold text-3xl text-white">R$12M+</p>
+          <p class="text-[10px] text-white/40 font-mono uppercase tracking-widest">Em Faturamento Gerado</p>
+          <div class="w-full h-0.5 bg-white/5 rounded-full overflow-hidden mt-2">
+            <div class="h-full bg-primary-500 rounded-full glow" style="width: 85%; animation: barFill 1.8s ease-out forwards;"></div>
+          </div>
+        </div>
+
+        <div class="text-center space-y-1">
+          <p class="font-jakarta font-bold text-3xl text-white">4.9★</p>
+          <p class="text-[10px] text-white/40 font-mono uppercase tracking-widest">Avaliação Média</p>
+          <div class="w-full h-0.5 bg-white/5 rounded-full overflow-hidden mt-2">
+            <div class="h-full bg-primary-500 rounded-full glow" style="width: 98%; animation: barFill 2s ease-out forwards;"></div>
+          </div>
+        </div>
+
+        <div class="text-center space-y-1">
+          <p class="font-jakarta font-bold text-3xl text-white">97%</p>
+          <p class="text-[10px] text-white/40 font-mono uppercase tracking-widest">Taxa de Renovação</p>
+          <div class="w-full h-0.5 bg-white/5 rounded-full overflow-hidden mt-2">
+            <div class="h-full bg-primary-500 rounded-full glow" style="width: 97%; animation: barFill 1.6s ease-out forwards;"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── CTA com Border Beam (mesmo padrão do hero) ── -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 [animation:animationIn_0.8s_ease-out_0.7s_both] animate-on-scroll">
+        <button class="group inline-flex overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_40px_rgba(139,92,246,0.35)] rounded-full pt-[1px] pr-[1px] pb-[1px] pl-[1px] relative items-center justify-center">
+          <span class="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,transparent_75%,#8b5cf6_100%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
+          <span class="absolute inset-0 rounded-full bg-white/8 transition-opacity duration-300 group-hover:opacity-0"></span>
+          <span class="flex items-center justify-center gap-3 uppercase text-xs sm:text-sm font-semibold text-zinc-300 group-hover:text-white tracking-widest bg-gradient-to-b from-[#1a1728] to-[#100d17] w-full h-full rounded-full px-8 py-4 relative shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-md transition-colors duration-300">
+            <span>Quero Receber Diagnóstico Gratuito</span>
+            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"></i>
+          </span>
+        </button>
+        <p class="text-[10px] text-white/30 font-mono uppercase tracking-widest">Sem taxa de setup · Resultados em 30 dias</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Primeira Dobra: Infinite Marquee e Services -->
+  <section class="py-20 bg-black/40 border-t border-white/5 relative z-10 backdrop-blur-2xl">
+    
+    <!-- Marquee Infinito -->
+    <div class="max-w-[100vw] overflow-hidden mb-24 [animation:animationIn_0.8s_ease-out_0.3s_both] animate-on-scroll">
+      <p class="text-center font-mono text-[10px] md:text-xs text-neutral-500 uppercase tracking-widest mb-10 w-full">Tecnologias & Parceiros Integrados</p>
+      
+      <div class="relative py-8 border-y border-white/5 flex items-center">
+        <!-- Overlay Gradient -->
+        <div class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-darkGray-100 to-transparent z-10 pointer-events-none"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-darkGray-100 to-transparent z-10 pointer-events-none"></div>
+        
+        <div class="flex w-[200%] animate-marquee">
+          <!-- Slide 1 -->
+          <div class="flex justify-around w-1/2 text-neutral-600/70 items-center px-4">
+            <i data-lucide="figma" class="w-10 h-10 hover:text-white transition-colors cursor-pointer"></i>
+            <i data-lucide="framer" class="w-10 h-10 hover:text-white transition-colors cursor-pointer"></i>
+            <i data-lucide="chrome" class="w-10 h-10 hover:text-white transition-colors cursor-pointer"></i>
+            <i data-lucide="github" class="w-10 h-10 hover:text-white transition-colors cursor-pointer"></i>
+            <i data-lucide="codepen" class="w-10 h-10 hover:text-white transition-colors cursor-pointer"></i>
+            <i data-lucide="database" class="w-10 h-10 hover:text-white transition-colors cursor-pointer"></i>
+          </div>
+          <!-- Slide 2 -->
+          <div class="flex justify-around w-1/2 text-neutral-600/70 items-center px-4">
+            <i data-lucide="figma" class="w-10 h-10 hover:text-white transition-colors cursor-pointer"></i>
+            <i data-lucide="framer" class="w-10 h-10 hover:text-white transition-colors cursor-pointer"></i>
+            <i data-lucide="chrome" class="w-10 h-10 hover:text-white transition-colors cursor-pointer"></i>
+            <i data-lucide="github" class="w-10 h-10 hover:text-white transition-colors cursor-pointer"></i>
+            <i data-lucide="codepen" class="w-10 h-10 hover:text-white transition-colors cursor-pointer"></i>
+            <i data-lucide="database" class="w-10 h-10 hover:text-white transition-colors cursor-pointer"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cards de Serviços com Efeito Hover e Liquid Glass -->
+    <div class="max-w-7xl mx-auto px-6" id="servicos">
+      <div class="text-center mb-16 [animation:animationIn_0.8s_ease-out_0.2s_both] animate-on-scroll">
+         <h2 class="text-3xl md:text-5xl font-jakarta font-bold mb-4 tracking-tight">O que nós <span class="text-primary-400">entregamos</span>.</h2>
+         <p class="text-white/60 max-w-xl mx-auto text-sm lg:text-base font-light">Vamos muito além do óbvio. Nossas metodologias são desenhadas para negócios que desejam dominar o seu segmento com estética e agressividade nas vendas.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- Service Card 1 -->
+        <div class="glass-effect bg-white/[0.03] border border-white/10 rounded-[2em] p-8 shadow-xl hover:bg-white/[0.06] hover:border-white/20 transition-all duration-300 group [animation:animationIn_0.8s_ease-out_0.4s_both] animate-on-scroll relative overflow-hidden">
+          <div class="absolute -right-12 -top-12 w-32 h-32 bg-primary-500/20 rounded-full blur-[40px] group-hover:bg-primary-500/40 transition-colors"></div>
+          
+          <div class="w-12 h-12 rounded-xl bg-primary-500/10 flex items-center justify-center mb-8 border border-primary-500/20 group-hover:scale-110 transition-transform duration-300 relative z-10">
+            <i data-lucide="target" class="w-6 h-6 text-primary-400"></i>
+          </div>
+          <h3 class="text-xl font-semibold font-jakarta mb-3 text-white">Tráfego e Growth</h3>
+          <p class="text-sm opacity-70 font-inter leading-relaxed relative z-10 font-light pb-6 border-b border-white/10">
+            Campanhas de tráfego pago ultra-segmentadas com Meta Ads, Google Ads e machine learning para reduzir o seu CAC constantemente.
+          </p>
+          <div class="mt-6">
+            <a href="#" class="text-primary-400 font-medium text-sm flex items-center gap-2 group-hover:text-primary-300">
+               Explorar serviço <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Service Card 2 (Highlight) -->
+        <div class="glass-effect bg-gradient-to-br from-[#231548]/80 to-[#100a1c] border border-primary-500/30 rounded-[2em] p-8 shadow-2xl hover:border-primary-500/50 transition-all duration-300 group [animation:animationIn_0.8s_ease-out_0.6s_both] animate-on-scroll relative overflow-hidden transform md:-translate-y-4">
+          <div class="absolute -right-20 -bottom-20 w-64 h-64 bg-primary-500/30 rounded-full blur-[60px] group-hover:bg-primary-500/50 transition-colors pointer-events-none"></div>
+          
+          <!-- Liquid Glass aesthetic sub-badge -->
+          <div class="absolute top-8 right-8 px-3 py-1 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-[10px] font-bold tracking-widest text-white/90 shadow-lg">
+             CORE
+          </div>
+
+          <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center mb-8 border border-white/20 group-hover:scale-110 transition-transform duration-300 relative z-10 backdrop-blur-md shadow-xl">
+            <i data-lucide="palette" class="w-7 h-7 text-white"></i>
+          </div>
+          <h3 class="text-2xl font-semibold font-jakarta mb-3 text-white relative z-10">Premium Design</h3>
+          <p class="text-sm opacity-80 font-inter leading-relaxed relative z-10 font-light pb-6 border-b border-white/10">
+            Criação de marcas, design systems e interfaces (UI/UX) imersivas usando estética "Liquid Glass". Design que eleva o valor percebido e converte visitantes em clientes fiéis.
+          </p>
+          <div class="mt-6 position relative z-10">
+             <a href="#" class="text-white font-medium text-sm flex items-center gap-2 hover:opacity-80">
+               Visualizar portfólio <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Service Card 3 -->
+        <div class="glass-effect bg-white/[0.03] border border-white/10 rounded-[2em] p-8 shadow-xl hover:bg-white/[0.06] hover:border-white/20 transition-all duration-300 group [animation:animationIn_0.8s_ease-out_0.8s_both] animate-on-scroll relative overflow-hidden">
+          <div class="absolute -left-12 -bottom-12 w-32 h-32 bg-primary-500/10 rounded-full blur-[40px] group-hover:bg-primary-500/30 transition-colors"></div>
+          
+          <div class="w-12 h-12 rounded-xl bg-primary-500/10 flex items-center justify-center mb-8 border border-primary-500/20 group-hover:scale-110 transition-transform duration-300 relative z-10">
+            <i data-lucide="rocket" class="w-6 h-6 text-primary-400"></i>
+          </div>
+          <h3 class="text-xl font-semibold font-jakarta mb-3 text-white">Lançamentos</h3>
+          <p class="text-sm opacity-70 font-inter leading-relaxed relative z-10 font-light pb-6 border-b border-white/10">
+            Estratégias metódicas com funis avançados de e-mail, automações via WhatsApp e estrutura de marketing infalível para escalar infoprodutos e e-commerces.
+          </p>
+          <div class="mt-6">
+             <a href="#" class="text-primary-400 font-medium text-sm flex items-center gap-2 group-hover:text-primary-300">
+               Explorar serviço <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Sobre & Stats -->
+  <section id="sobre" class="py-24 relative z-10">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div class="space-y-6 [animation:animationIn_0.8s_ease-out_0.2s_both] animate-on-scroll">
+          <h2 class="text-4xl md:text-5xl font-jakarta font-bold tracking-tight">
+            Maranata, <br/>
+            <span class="text-primary-400">Seu Sucesso</span>, Nosso Objetivo.
+          </h2>
+          <p class="text-lg opacity-70 font-inter font-light leading-relaxed">
+            Com uma mistura de criatividade e inovação, criamos soluções sob medida que atendem ao seu público-alvo.
+          </p>
+          <div class="pt-4">
+            <button class="px-6 py-3 rounded-full glass-button bg-primary-500/20 border border-primary-500/40 font-medium hover:bg-primary-500/30 transition-all text-sm flex items-center gap-2">
+              Entre em Contato <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 [animation:animationIn_0.8s_ease-out_0.4s_both] animate-on-scroll">
+          <div class="glass-effect bg-white/5 border border-white/10 rounded-2xl p-6 text-center shadow-lg relative overflow-hidden group">
+            <div class="absolute inset-0 bg-primary-500/5 group-hover:bg-primary-500/10 transition-colors"></div>
+            <p class="text-3xl font-bold font-jakarta text-white mb-1"><span class="text-primary-400">125</span>+</p>
+            <p class="text-[10px] font-mono opacity-60 uppercase tracking-widest">Projetos</p>
+          </div>
+          <div class="glass-effect bg-white/5 border border-white/10 rounded-2xl p-6 text-center shadow-lg relative overflow-hidden group">
+            <div class="absolute inset-0 bg-primary-500/5 group-hover:bg-primary-500/10 transition-colors"></div>
+            <p class="text-3xl font-bold font-jakarta text-white mb-1"><span class="text-primary-400">&gt;89</span></p>
+            <p class="text-[10px] font-mono opacity-60 uppercase tracking-widest">Clientes</p>
+          </div>
+          <div class="glass-effect bg-white/5 border border-white/10 rounded-2xl p-6 text-center shadow-lg relative overflow-hidden group">
+            <div class="absolute inset-0 bg-primary-500/5 group-hover:bg-primary-500/10 transition-colors"></div>
+            <p class="text-3xl font-bold font-jakarta text-white mb-1"><span class="text-primary-400">&gt;73</span></p>
+            <p class="text-[10px] font-mono opacity-60 uppercase tracking-widest">Campanhas</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: All Services -->
+  <section id="todos-servicos" class="py-24 bg-black/20 border-t border-white/5 relative z-10">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16 [animation:animationIn_0.8s_ease-out_0.2s_both] animate-on-scroll">
+        <h2 class="text-3xl md:text-5xl font-jakarta font-bold mb-4 tracking-tight">Nossos <span class="text-primary-400">Serviços</span>.</h2>
+        <p class="text-white/60 max-w-2xl mx-auto text-sm lg:text-base font-light">Impulsionamos Seu Sucesso com Estratégias Digitais de Alto Impacto</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 [animation:animationIn_0.8s_ease-out_0.4s_both] animate-on-scroll">
+        <!-- Loop over 8 services -->
+        <div class="glass-effect bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-primary-500/30 transition-all duration-300 group">
+          <i data-lucide="users" class="w-7 h-7 text-primary-400 mb-4 group-hover:scale-110 transition-transform"></i>
+          <h3 class="text-lg font-semibold font-jakarta mb-2 text-white">Marketing de Influência</h3>
+          <p class="text-xs opacity-70 font-inter leading-relaxed font-light">Conectamos sua marca a influenciadores brilhantes, ampliando seu alcance com impacto significativo.</p>
+        </div>
+        <div class="glass-effect bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-primary-500/30 transition-all duration-300 group">
+          <i data-lucide="share-2" class="w-7 h-7 text-primary-400 mb-4 group-hover:scale-110 transition-transform"></i>
+          <h3 class="text-lg font-semibold font-jakarta mb-2 text-white">Gestão de Redes Sociais</h3>
+          <p class="text-xs opacity-70 font-inter leading-relaxed font-light">Conectamos sua marca aos seguidores certos, criando uma rede de conteúdo envolvente nas timelines.</p>
+        </div>
+        <div class="glass-effect bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-primary-500/30 transition-all duration-300 group">
+          <i data-lucide="mouse-pointer-click" class="w-7 h-7 text-primary-400 mb-4 group-hover:scale-110 transition-transform"></i>
+          <h3 class="text-lg font-semibold font-jakarta mb-2 text-white">Publicidade Paga</h3>
+          <p class="text-xs opacity-70 font-inter leading-relaxed font-light">Lançamos campanhas publicitárias que atingem seu público-alvo com precisão para ampliar suas vendas.</p>
+        </div>
+        <div class="glass-effect bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-primary-500/30 transition-all duration-300 group">
+          <i data-lucide="pen-tool" class="w-7 h-7 text-primary-400 mb-4 group-hover:scale-110 transition-transform"></i>
+          <h3 class="text-lg font-semibold font-jakarta mb-2 text-white">Marketing de Conteúdo</h3>
+          <p class="text-xs opacity-70 font-inter leading-relaxed font-light">Produzimos conteúdo de alta qualidade que educa, entretém e engaja, construindo autoridade.</p>
+        </div>
+        <div class="glass-effect bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-primary-500/30 transition-all duration-300 group">
+          <i data-lucide="palette" class="w-7 h-7 text-primary-400 mb-4 group-hover:scale-110 transition-transform"></i>
+          <h3 class="text-lg font-semibold font-jakarta mb-2 text-white">Branding e Design</h3>
+          <p class="text-xs opacity-70 font-inter leading-relaxed font-light">Criamos visuais que capturam a essência da sua marca e se destacam no ambiente digital e físico.</p>
+        </div>
+        <div class="glass-effect bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-primary-500/30 transition-all duration-300 group">
+          <i data-lucide="search" class="w-7 h-7 text-primary-400 mb-4 group-hover:scale-110 transition-transform"></i>
+          <h3 class="text-lg font-semibold font-jakarta mb-2 text-white">SEO</h3>
+          <p class="text-xs opacity-70 font-inter leading-relaxed font-light">Garantimos que sua marca seja descoberta pelas palavras-chave certas nos motores de busca.</p>
+        </div>
+        <div class="glass-effect bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-primary-500/30 transition-all duration-300 group">
+          <i data-lucide="layout" class="w-7 h-7 text-primary-400 mb-4 group-hover:scale-110 transition-transform"></i>
+          <h3 class="text-lg font-semibold font-jakarta mb-2 text-white">Dev de Websites</h3>
+          <p class="text-xs opacity-70 font-inter leading-relaxed font-light">Construímos portais digitais que oferecem experiências fluidas com total responsividade.</p>
+        </div>
+        <div class="glass-effect bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-primary-500/30 transition-all duration-300 group">
+          <i data-lucide="mail" class="w-7 h-7 text-primary-400 mb-4 group-hover:scale-110 transition-transform"></i>
+          <h3 class="text-lg font-semibold font-jakarta mb-2 text-white">E-mail Marketing</h3>
+          <p class="text-xs opacity-70 font-inter leading-relaxed font-light">Enviamos mensagens diretas construindo relações e transformando leads em clientes fiéis.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Metodologia -->
+  <section id="metodologia" class="py-24 md:py-32 bg-black/20 border-t border-white/5 relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute left-[10%] top-[20%] w-[1px] h-[100px] bg-gradient-to-b from-transparent via-white/5 to-transparent"></div>
+      <div class="absolute right-[10%] bottom-[20%] w-[1px] h-[100px] bg-gradient-to-b from-transparent via-white/5 to-transparent"></div>
+      <div class="absolute -right-40 top-40 w-96 h-96 bg-primary-500/20 rounded-full blur-[100px] pointer-events-none"></div>
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+      <div class="text-center mb-16 md:mb-28 relative z-10 [animation:animationIn_0.8s_ease-out_0.2s_both] animate-on-scroll">
+        <h2 class="text-3xl md:text-5xl font-jakarta font-bold mb-4 tracking-tight">Nossa <span class="text-primary-400">Metodologia</span>.</h2>
+        <p class="text-white/60 max-w-2xl mx-auto text-sm lg:text-base font-light">Ajudamos empresas com vendas através da internet, por meio de um método de marketing dividido em 4 fases.</p>
+      </div>
+      
+      <div class="relative max-w-4xl mx-auto [animation:animationIn_0.8s_ease-out_0.4s_both] animate-on-scroll">
+        <div class="absolute left-[28px] md:left-[39px] top-0 bottom-0 w-[2px] bg-white/5 rounded-full z-0"></div>
+        <div class="absolute left-[28px] md:left-[39px] top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-vertex-orange to-vertex-red origin-top z-10" id="wf-progress-line" style="transform: scaleY(0);">
+          <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-16 bg-gradient-to-t from-primary-400 to-transparent opacity-80 blur-[2px]"></div>
+          <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-4 bg-vertex-orange blur-[8px] rounded-full"></div>
+        </div>
+        
+        <div class="space-y-16 md:space-y-32 relative z-10 pb-12 wf-steps-wrapper">
+          <!-- Step 1 -->
+          <div class="relative flex items-start gap-6 md:gap-12 group">
+            <div class="relative z-20 flex-shrink-0 mt-1">
+              <div class="w-14 h-14 md:w-20 md:h-20 rounded-2xl bg-black border-2 flex items-center justify-center relative overflow-hidden transition-colors duration-300 wf-box-dim" style="border-color: rgba(255, 255, 255, 0.1);">
+                <div class="absolute inset-0 bg-vertex-orange/10 blur-md" style="opacity: 0.009;"></div>
+                <span class="text-xl md:text-2xl font-bold font-sans relative z-10" style="color: rgb(82, 82, 82);">1</span>
+                <div class="absolute top-1 left-1 w-1 h-1 bg-white/20 rounded-full"></div>
+                <div class="absolute bottom-1 right-1 w-1 h-1 bg-white/20 rounded-full"></div>
+              </div>
+              <div class="absolute inset-0 rounded-2xl border border-vertex-orange/50 wf-ring-dim" style="opacity: 0.009; transform: scale(1.39);"></div>
+            </div>
+            <div class="flex-1 pt-2">
+              <div class="relative group-hover:-translate-y-1 transition-transform duration-500 ease-out p-6 md:p-8 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-sm hover:bg-white/[0.04] hover:border-white/10">
+                <div class="absolute top-0 left-0 w-3 h-[1px] bg-white/20 group-hover:bg-vertex-orange/50 transition-colors"></div>
+                <div class="absolute top-0 left-0 w-[1px] h-3 bg-white/20 group-hover:bg-vertex-orange/50 transition-colors"></div>
+                <h3 class="text-xl md:text-3xl font-bold text-white mb-3 flex items-center gap-3">Aquisição
+                  <svg class="text-vertex-orange opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </h3>
+                <p class="text-vertex-muted text-sm md:text-lg leading-relaxed max-w-2xl">Onde atraímos audiência, pessoas interessadas em comprar da sua empresa.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Step 2 -->
+          <div class="relative flex items-start gap-6 md:gap-12 group">
+            <div class="relative z-20 flex-shrink-0 mt-1">
+              <div class="w-14 h-14 md:w-20 md:h-20 rounded-2xl bg-black border-2 flex items-center justify-center relative overflow-hidden transition-colors duration-300 wf-box-dim" style="border-color: rgba(255, 255, 255, 0.1);">
+                <div class="absolute inset-0 bg-vertex-orange/10 blur-md" style="opacity: 0.009;"></div>
+                <span class="text-xl md:text-2xl font-bold font-sans relative z-10" style="color: rgb(82, 82, 82);">2</span>
+                <div class="absolute top-1 left-1 w-1 h-1 bg-white/20 rounded-full"></div>
+                <div class="absolute bottom-1 right-1 w-1 h-1 bg-white/20 rounded-full"></div>
+              </div>
+              <div class="absolute inset-0 rounded-2xl border border-vertex-orange/50 wf-ring-dim" style="opacity: 0.009; transform: scale(1.39);"></div>
+            </div>
+            <div class="flex-1 pt-2">
+              <div class="relative group-hover:-translate-y-1 transition-transform duration-500 ease-out p-6 md:p-8 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-sm hover:bg-white/[0.04] hover:border-white/10">
+                <div class="absolute top-0 left-0 w-3 h-[1px] bg-white/20 group-hover:bg-vertex-orange/50 transition-colors"></div>
+                <div class="absolute top-0 left-0 w-[1px] h-3 bg-white/20 group-hover:bg-vertex-orange/50 transition-colors"></div>
+                <h3 class="text-xl md:text-3xl font-bold text-white mb-3 flex items-center gap-3">Engajamento
+                  <svg class="text-vertex-orange opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </h3>
+                <p class="text-vertex-muted text-sm md:text-lg leading-relaxed max-w-2xl">Construímos interesse e geramos confiança para que elas comprem de você.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Step 3 -->
+          <div class="relative flex items-start gap-6 md:gap-12 group">
+            <div class="relative z-20 flex-shrink-0 mt-1">
+              <div class="w-14 h-14 md:w-20 md:h-20 rounded-2xl bg-black border-2 flex items-center justify-center relative overflow-hidden transition-colors duration-300 wf-box-dim" style="border-color: rgba(255, 255, 255, 0.1);">
+                <div class="absolute inset-0 bg-vertex-orange/10 blur-md" style="opacity: 0.009;"></div>
+                <span class="text-xl md:text-2xl font-bold font-sans relative z-10" style="color: rgb(82, 82, 82);">3</span>
+                <div class="absolute top-1 left-1 w-1 h-1 bg-white/20 rounded-full"></div>
+                <div class="absolute bottom-1 right-1 w-1 h-1 bg-white/20 rounded-full"></div>
+              </div>
+              <div class="absolute inset-0 rounded-2xl border border-vertex-orange/50 wf-ring-dim" style="opacity: 0.009; transform: scale(1.39);"></div>
+            </div>
+            <div class="flex-1 pt-2">
+              <div class="relative group-hover:-translate-y-1 transition-transform duration-500 ease-out p-6 md:p-8 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-sm hover:bg-white/[0.04] hover:border-white/10">
+                <div class="absolute top-0 left-0 w-3 h-[1px] bg-white/20 group-hover:bg-vertex-orange/50 transition-colors"></div>
+                <div class="absolute top-0 left-0 w-[1px] h-3 bg-white/20 group-hover:bg-vertex-orange/50 transition-colors"></div>
+                <h3 class="text-xl md:text-3xl font-bold text-white mb-3 flex items-center gap-3">Monetização
+                  <svg class="text-vertex-orange opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </h3>
+                <p class="text-vertex-muted text-sm md:text-lg leading-relaxed max-w-2xl">O processo que torna esse publico interessado em clientes compradores.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Step 4 -->
+          <div class="relative flex items-start gap-6 md:gap-12 group">
+            <div class="relative z-20 flex-shrink-0 mt-1">
+              <div class="w-14 h-14 md:w-20 md:h-20 rounded-2xl bg-black border-2 flex items-center justify-center relative overflow-hidden transition-colors duration-300 wf-box-dim" style="border-color: rgba(255, 255, 255, 0.1);">
+                <div class="absolute inset-0 bg-vertex-orange/10 blur-md" style="opacity: 0.009;"></div>
+                <span class="text-xl md:text-2xl font-bold font-sans relative z-10" style="color: rgb(82, 82, 82);">4</span>
+                <div class="absolute top-1 left-1 w-1 h-1 bg-white/20 rounded-full"></div>
+                <div class="absolute bottom-1 right-1 w-1 h-1 bg-white/20 rounded-full"></div>
+              </div>
+              <div class="absolute inset-0 rounded-2xl border border-vertex-orange/50 wf-ring-dim" style="opacity: 0.009; transform: scale(1.39);"></div>
+            </div>
+            <div class="flex-1 pt-2">
+              <div class="relative group-hover:-translate-y-1 transition-transform duration-500 ease-out p-6 md:p-8 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-sm hover:bg-white/[0.04] hover:border-white/10">
+                <div class="absolute top-0 left-0 w-3 h-[1px] bg-white/20 group-hover:bg-vertex-orange/50 transition-colors"></div>
+                <div class="absolute top-0 left-0 w-[1px] h-3 bg-white/20 group-hover:bg-vertex-orange/50 transition-colors"></div>
+                <h3 class="text-xl md:text-3xl font-bold text-white mb-3 flex items-center gap-3">Retenção
+                  <svg class="text-vertex-orange opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </h3>
+                <p class="text-vertex-muted text-sm md:text-lg leading-relaxed max-w-2xl">Estratégias para manter eles comprando mais vezes e por um valor maior.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-16 text-center [animation:animationIn_0.8s_ease-out_0.6s_both] animate-on-scroll">
+        <button class="glass-button bg-primary-500/20 border border-primary-500/40 font-medium hover:bg-primary-500/30 transition-all text-sm px-8 py-4 rounded-full inline-flex items-center gap-2">
+          Obtenha um serviço personalizado <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Excelência -->
+  <section id="excelencia" class="py-28 bg-black/20 border-t border-white/5 relative z-10 overflow-hidden">
+    <!-- Ambient blobs -->
+    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-500/8 rounded-full blur-[140px] pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 w-80 h-80 bg-primary-600/8 rounded-full blur-[100px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-14 items-center">
+
+      <!-- Foto do Fundador -->
+      <div class="flex flex-col items-center [animation:animationIn_0.8s_ease-out_0.1s_both] animate-on-scroll">
+        <div class="relative group">
+          <div class="absolute inset-0 rounded-2xl bg-primary-500/20 blur-2xl scale-105 group-hover:bg-primary-500/35 transition-all duration-500"></div>
+          <div class="relative rounded-2xl p-[2px] bg-gradient-to-br from-primary-400/60 via-primary-500/30 to-transparent shadow-[0_0_30px_rgba(139,92,246,0.25)]">
+            <img
+              src="upscalemedia-transformed (3).png"
+              alt="Fundador da Maranata"
+              class="relative rounded-2xl w-full max-w-[280px] object-cover aspect-[3/4] grayscale-[15%] group-hover:grayscale-0 transition-all duration-500"
+            />
+          </div>
+        </div>
+        <div class="mt-5 text-center">
+          <p class="font-jakarta font-semibold text-white text-base">Tharis Simionato</p>
+          <p class="text-xs text-primary-400 font-inter mt-1 opacity-80">Fundador & CEO · Maranata</p>
+        </div>
+      </div>
+
+      <!-- Título + Descrição + Botões -->
+      <div class="space-y-7 [animation:animationIn_0.8s_ease-out_0.2s_both] animate-on-scroll">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary-500/30 bg-primary-500/10 backdrop-blur-sm">
+          <span class="w-1.5 h-1.5 rounded-full bg-primary-400 animate-pulse shadow-[0_0_8px_rgba(139,92,246,0.8)]"></span>
+          <span class="text-[10px] uppercase tracking-[0.2em] text-primary-400 font-inter">Excelência comprovada</span>
+        </div>
+        <h2 class="text-3xl md:text-5xl font-jakarta font-bold tracking-tight leading-tight">Navegando juntos no <span class="text-primary-400">cenário digital</span>.</h2>
+        <p class="text-base opacity-65 font-inter font-light leading-relaxed">Conheça o padrão de excelência que garantimos em cada projeto, refletido nas nossas métricas de desempenho.</p>
+        <!-- Botões com efeitos do design system -->
+        <div class="flex gap-3 flex-wrap pt-1">
+          <button class="group relative overflow-hidden px-6 py-3 rounded-xl font-jakarta font-semibold text-sm uppercase tracking-wider text-white bg-primary-500 shadow-[0_0_20px_rgba(139,92,246,0.35)] hover:shadow-[0_0_35px_rgba(139,92,246,0.6)] transition-all duration-300 hover:-translate-y-1 flex items-center gap-2">
+            <span class="relative z-10">Escalar Agora</span>
+            <i data-lucide="arrow-right" class="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform duration-300"></i>
+            <div class="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
+            <div class="absolute inset-0 -left-full bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover:left-full transition-all duration-700 pointer-events-none"></div>
+          </button>
+          <button class="group px-6 py-3 rounded-xl font-jakarta font-semibold text-sm uppercase tracking-wider text-white/60 border border-white/10 glass-effect backdrop-blur-md hover:text-white hover:border-primary-500/50 hover:bg-primary-500/10 transition-all duration-300 hover:-translate-y-1">
+            Saiba Mais
+          </button>
+        </div>
+      </div>
+
+      <!-- Cards de Métricas -->
+      <div class="grid grid-cols-2 gap-4 [animation:animationIn_0.8s_ease-out_0.4s_both] animate-on-scroll">
+
+        <!-- Card 1: Marketing de Influência -->
+        <div class="group relative overflow-hidden rounded-2xl p-5 border border-white/10 bg-white/[0.03] backdrop-blur-xl hover:-translate-y-1.5 hover:border-primary-500/40 hover:bg-white/[0.06] hover:shadow-[0_12px_32px_rgba(139,92,246,0.18)] transition-all duration-500 cursor-pointer">
+          <div class="absolute inset-0 -left-full bg-gradient-to-r from-transparent via-white/5 to-transparent group-hover:left-full transition-all duration-700 pointer-events-none"></div>
+          <div class="flex justify-between items-start mb-4">
+            <div class="w-9 h-9 rounded-xl bg-primary-500/10 border border-primary-500/20 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-300">
+              <i data-lucide="megaphone" class="w-4 h-4 text-primary-400"></i>
+            </div>
+            <span class="text-primary-400 font-jakarta font-bold text-2xl">95%</span>
+          </div>
+          <p class="text-xs text-white/55 font-inter leading-snug">Marketing de Influência</p>
+          <div class="mt-3 w-full h-1 bg-white/10 rounded-full overflow-hidden">
+            <div class="h-full bg-primary-500 rounded-full glow transition-all duration-1000" style="width: 95%"></div>
+          </div>
+        </div>
+
+        <!-- Card 2: Branding e Design -->
+        <div class="group relative overflow-hidden rounded-2xl p-5 border border-white/10 bg-white/[0.03] backdrop-blur-xl hover:-translate-y-1.5 hover:border-primary-500/40 hover:bg-white/[0.06] hover:shadow-[0_12px_32px_rgba(139,92,246,0.18)] transition-all duration-500 cursor-pointer">
+          <div class="absolute inset-0 -left-full bg-gradient-to-r from-transparent via-white/5 to-transparent group-hover:left-full transition-all duration-700 pointer-events-none"></div>
+          <div class="flex justify-between items-start mb-4">
+            <div class="w-9 h-9 rounded-xl bg-primary-500/10 border border-primary-500/20 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-300">
+              <i data-lucide="palette" class="w-4 h-4 text-primary-400"></i>
+            </div>
+            <span class="text-primary-400 font-jakarta font-bold text-2xl">93%</span>
+          </div>
+          <p class="text-xs text-white/55 font-inter leading-snug">Branding e Design</p>
+          <div class="mt-3 w-full h-1 bg-white/10 rounded-full overflow-hidden">
+            <div class="h-full bg-primary-500 rounded-full glow transition-all duration-1000" style="width: 93%"></div>
+          </div>
+        </div>
+
+        <!-- Card 3: Publicidade Paga -->
+        <div class="group relative overflow-hidden rounded-2xl p-5 border border-white/10 bg-white/[0.03] backdrop-blur-xl hover:-translate-y-1.5 hover:border-primary-500/40 hover:bg-white/[0.06] hover:shadow-[0_12px_32px_rgba(139,92,246,0.18)] transition-all duration-500 cursor-pointer">
+          <div class="absolute inset-0 -left-full bg-gradient-to-r from-transparent via-white/5 to-transparent group-hover:left-full transition-all duration-700 pointer-events-none"></div>
+          <div class="flex justify-between items-start mb-4">
+            <div class="w-9 h-9 rounded-xl bg-primary-500/10 border border-primary-500/20 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-300">
+              <i data-lucide="target" class="w-4 h-4 text-primary-400"></i>
+            </div>
+            <span class="text-primary-400 font-jakarta font-bold text-2xl">90%</span>
+          </div>
+          <p class="text-xs text-white/55 font-inter leading-snug">Publicidade Paga</p>
+          <div class="mt-3 w-full h-1 bg-white/10 rounded-full overflow-hidden">
+            <div class="h-full bg-primary-500 rounded-full glow transition-all duration-1000" style="width: 90%"></div>
+          </div>
+        </div>
+
+        <!-- Card 4: Desenvolvimento de Websites -->
+        <div class="group relative overflow-hidden rounded-2xl p-5 border border-white/10 bg-white/[0.03] backdrop-blur-xl hover:-translate-y-1.5 hover:border-primary-500/40 hover:bg-white/[0.06] hover:shadow-[0_12px_32px_rgba(139,92,246,0.18)] transition-all duration-500 cursor-pointer">
+          <div class="absolute inset-0 -left-full bg-gradient-to-r from-transparent via-white/5 to-transparent group-hover:left-full transition-all duration-700 pointer-events-none"></div>
+          <div class="flex justify-between items-start mb-4">
+            <div class="w-9 h-9 rounded-xl bg-primary-500/10 border border-primary-500/20 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors duration-300">
+              <i data-lucide="globe" class="w-4 h-4 text-primary-400"></i>
+            </div>
+            <span class="text-primary-400 font-jakarta font-bold text-2xl">86%</span>
+          </div>
+          <p class="text-xs text-white/55 font-inter leading-snug">Desenvolvimento de Websites</p>
+          <div class="mt-3 w-full h-1 bg-white/10 rounded-full overflow-hidden">
+            <div class="h-full bg-primary-500 rounded-full glow transition-all duration-1000" style="width: 86%"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Depoimentos -->
+  <section id="depoimentos" class="py-24 relative z-10 overflow-hidden">
+    <!-- Blur abstract -->
+    <div class="absolute -left-40 top-40 w-96 h-96 bg-primary-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16 [animation:animationIn_0.8s_ease-out_0.2s_both] animate-on-scroll">
+        <h2 class="text-3xl md:text-5xl font-jakarta font-bold mb-4 tracking-tight">O que disseram <span class="text-primary-400">sobre nós</span>.</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 [animation:animationIn_0.8s_ease-out_0.4s_both] animate-on-scroll">
+        <div class="glass-effect bg-white/5 border border-white/10 rounded-2xl p-8 flex flex-col justify-between hover:bg-white/10 transition-colors relative">
+          <div class="flex gap-1 mb-4 text-emerald-400"><i data-lucide="star" class="fill-emerald-400 w-4 h-4"></i><i data-lucide="star" class="fill-emerald-400 w-4 h-4"></i><i data-lucide="star" class="fill-emerald-400 w-4 h-4"></i><i data-lucide="star" class="fill-emerald-400 w-4 h-4"></i><i data-lucide="star" class="fill-emerald-400 w-4 h-4"></i></div>
+          <p class="text-sm opacity-80 font-light italic mb-6">"Muito satisfeito com os resultados! A Maranata conectou nossa marca com influenciadores que realmente fizeram a diferença. Excelentes resultados!"</p>
+          <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-darkGray-50 flex items-center justify-center font-bold text-primary-400 text-sm border border-primary-500/30">A</div><div><p class="text-sm font-jakarta font-semibold">Anderson</p><p class="text-[10px] font-mono opacity-60">Kuky Alimentos</p></div></div>
+        </div>
+        <div class="glass-effect bg-white/5 border border-white/10 rounded-2xl p-8 flex flex-col justify-between hover:bg-white/10 transition-colors relative">
+          <div class="flex gap-1 mb-4 text-emerald-400"><i data-lucide="star" class="fill-emerald-400 w-4 h-4"></i><i data-lucide="star" class="fill-emerald-400 w-4 h-4"></i><i data-lucide="star" class="fill-emerald-400 w-4 h-4"></i><i data-lucide="star" class="fill-emerald-400 w-4 h-4"></i><i data-lucide="star" class="fill-emerald-400 w-4 h-4"></i></div>
+          <p class="text-sm opacity-80 font-light italic mb-6">"Excelente serviço! Minha empresa cresceu significativamente após contratar a Maranata. Profissionais dedicados e resultados reais."</p>
+          <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-darkGray-50 flex items-center justify-center font-bold text-primary-400 text-sm border border-primary-500/30">J</div><div><p class="text-sm font-jakarta font-semibold">José Augusto</p><p class="text-[10px] font-mono opacity-60">Lanchonete do Zé</p></div></div>
+        </div>
+        <div class="glass-effect bg-white/5 border border-white/10 rounded-2xl p-8 flex flex-col justify-between hover:bg-white/10 transition-colors relative">
+          <div class="flex gap-1 mb-4 text-emerald-400"><i data-lucide="star" class="fill-emerald-400 w-4 h-4"></i><i data-lucide="star" class="fill-emerald-400 w-4 h-4"></i><i data-lucide="star" class="fill-emerald-400 w-4 h-4"></i><i data-lucide="star" class="fill-emerald-400 w-4 h-4"></i><i data-lucide="star" class="fill-emerald-400 w-4 h-4"></i></div>
+          <p class="text-sm opacity-80 font-light italic mb-6">"Atendimento ágil e eficiente. Minha campanha de marketing teve um retorno incrível. Valeu cada centavo investido."</p>
+          <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-darkGray-50 flex items-center justify-center font-bold text-primary-400 text-sm border border-primary-500/30">G</div><div><p class="text-sm font-jakarta font-semibold">Gleidson</p><p class="text-[10px] font-mono opacity-60">Bronks Barbearia</p></div></div>
+        </div>
+        <div class="glass-effect bg-white/5 border border-white/10 rounded-2xl p-8 flex flex-col justify-between hover:bg-white/10 transition-colors relative">
+          <div class="flex gap-1 mb-4 text-emerald-400"><i data-lucide="star" class="fill-emerald-400 w-4 h-4"></i><i data-lucide="star" class="fill-emerald-400 w-4 h-4"></i><i data-lucide="star" class="fill-emerald-400 w-4 h-4"></i><i data-lucide="star" class="fill-emerald-400 w-4 h-4"></i><i data-lucide="star" class="fill-emerald-400 w-4 h-4"></i></div>
+          <p class="text-sm opacity-80 font-light italic mb-6">"Impressionante! A Maranata encontrou influenciadores perfeitos para nossa marca, aumentando visibilidade e gerando mais vendas."</p>
+          <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-darkGray-50 flex items-center justify-center font-bold text-primary-400 text-sm border border-primary-500/30">A</div><div><p class="text-sm font-jakarta font-semibold">Alecsander</p><p class="text-[10px] font-mono opacity-60">Binomo</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Processos -->
+  <section id="processos" class="py-24 bg-black/20 border-t border-white/5 relative z-10">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16 [animation:animationIn_0.8s_ease-out_0.2s_both] animate-on-scroll">
+        <h2 class="text-3xl md:text-5xl font-jakarta font-bold mb-4 tracking-tight">Impulsionando o crescimento com <span class="text-primary-400">excelência digital</span>.</h2>
+        <p class="text-white/60 max-w-2xl mx-auto text-sm lg:text-base font-light">Na Maranata, unimos tecnologia e estratégia para levar sua marca ao próximo nível.</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 [animation:animationIn_0.8s_ease-out_0.4s_both] animate-on-scroll">
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
+          <div class="w-10 h-10 mx-auto rounded-full bg-primary-500/20 text-primary-400 flex items-center justify-center mb-4"><i data-lucide="file-text" class="w-5 h-5"></i></div>
+          <h4 class="text-sm font-semibold mb-2">Briefing Inicial</h4>
+        </div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
+          <div class="w-10 h-10 mx-auto rounded-full bg-primary-500/20 text-primary-400 flex items-center justify-center mb-4"><i data-lucide="map" class="w-5 h-5"></i></div>
+          <h4 class="text-sm font-semibold mb-2">Planejamento Estratégico</h4>
+        </div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
+          <div class="w-10 h-10 mx-auto rounded-full bg-primary-500/20 text-primary-400 flex items-center justify-center mb-4"><i data-lucide="zap" class="w-5 h-5"></i></div>
+          <h4 class="text-sm font-semibold mb-2">Execução Precisa</h4>
+        </div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
+          <div class="w-10 h-10 mx-auto rounded-full bg-primary-500/20 text-primary-400 flex items-center justify-center mb-4"><i data-lucide="activity" class="w-5 h-5"></i></div>
+          <h4 class="text-sm font-semibold mb-2">Monitoramento e Ajustes</h4>
+        </div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 text-center sm:col-span-2 lg:col-span-1">
+          <div class="w-10 h-10 mx-auto rounded-full bg-primary-500/20 text-primary-400 flex items-center justify-center mb-4"><i data-lucide="pie-chart" class="w-5 h-5"></i></div>
+          <h4 class="text-sm font-semibold mb-2">Relatórios Detalhados</h4>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section id="cta" class="py-24 relative z-10">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <div class="glass-effect bg-gradient-to-tr from-primary-600/20 to-secondary-800/10 border border-primary-500/30 rounded-3xl p-12 md:p-16 shadow-[0_0_50px_rgba(139,92,246,0.15)] [animation:animationIn_0.8s_ease-out_0.2s_both] animate-on-scroll">
+        <h2 class="text-4xl md:text-5xl font-jakarta font-bold mb-6 tracking-tight">Desbloqueando seu <span class="text-primary-400">potencial digital</span>.</h2>
+        <p class="text-lg opacity-80 font-inter font-light mb-8 max-w-xl mx-auto">Envie uma mensagem no WhatsApp e obtenha uma consultoria gratuita personalizada!</p>
+        <button class="px-8 py-4 rounded-full bg-white text-black font-semibold font-jakarta hover:bg-neutral-200 transition-colors shadow-xl flex items-center gap-2 mx-auto cursor-pointer">
+          Entre em Contato <i data-lucide="message-circle" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/10 bg-darkGray-100 pt-16 pb-8 relative z-10 text-sm">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <div class="icon-circle w-8 h-8 shadow-sm border-primary-500/50 bg-primary-500/10">
+            <i data-lucide="trending-up" class="w-4 h-4 text-primary-500"></i>
+          </div>
+          <h3 class="text-xl font-bold font-jakarta tracking-tight">Maranata</h3>
+        </div>
+        <p class="opacity-60 font-light leading-relaxed">HATORIAMAKER SERVICOS DE MARKETING DIGITAL LTDA<br/>CNPJ: 42.032.471/0001-21</p>
+      </div>
+      <div>
+        <h4 class="font-jakarta font-semibold mb-4 text-white">Contatos</h4>
+        <ul class="space-y-3 opacity-60 font-light">
+          <li class="flex items-center gap-2 hover:text-primary-400 transition-colors"><i data-lucide="phone" class="w-4 h-4"></i> +55 (14) 98814-5337</li>
+          <li class="flex items-center gap-2 hover:text-primary-400 transition-colors cursor-pointer"><i data-lucide="mail" class="w-4 h-4"></i> contato@maranatamarketing.com</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-jakarta font-semibold mb-4 text-white">Redes Sociais</h4>
+        <div class="flex gap-4">
+          <a href="#" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-primary-500/20 hover:text-primary-400 transition-all"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-primary-500/20 hover:text-primary-400 transition-all"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-primary-500/20 hover:text-primary-400 transition-all"><i data-lucide="message-circle" class="w-5 h-5"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-6 text-center opacity-40 text-xs">
+      <p>Copyright© 2024. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Script Initialize -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Intersection Observer for slide-in animations
+    document.addEventListener("DOMContentLoaded", () => {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate");
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: "0px" });
+
+      document.querySelectorAll(".animate-on-scroll").forEach((el) => {
+        io.observe(el);
+      });
+    });
+
+    // Workflow Scroll Animation Logic
+    (function () {
+      function initWorkflowScroll() {
+        var section = document.getElementById('metodologia'); // Updated ID
+        if (!section) return;
+
+        var progressLine = document.getElementById('wf-progress-line'); // Updated selector
+        if (!progressLine) return;
+
+        var container = progressLine.parentElement;
+
+        // Collect all step groups and their number-box sub-elements
+        var stepsWrapper = container.querySelector('.wf-steps-wrapper'); // Updated selector
+        if (!stepsWrapper) return;
+
+        var stepGroups = Array.from(stepsWrapper.children);
+
+        var steps = stepGroups.map(function (group) {
+          var flexShrink = group.querySelector('[class*="flex-shrink-0"]');
+          if (!flexShrink) return null;
+          var box      = flexShrink.querySelector('[class*="rounded-2xl"][class*="border-2"]');
+          var glow     = box ? box.querySelector('[class*="bg-vertex-orange"]') : null;
+          var numSpan  = box ? box.querySelector('span') : null;
+          var outerRing = flexShrink.querySelector('[class*="border-vertex-orange"]');
+          return { group: group, box: box, glow: glow, numSpan: numSpan, outerRing: outerRing };
+        }).filter(Boolean);
+
+        function setStepActive(step, active) {
+          if (!step.box) return;
+          
+          var becameActive = active && !step.box.classList.contains('wf-box-strong');
+          
+          if (active) {
+            step.box.style.borderColor = ''; // Limpar inline legacy
+            step.box.classList.remove('wf-box-dim');
+            step.box.classList.add('wf-box-strong');
+
+            if (step.numSpan)  step.numSpan.style.color = 'rgb(255, 255, 255)';
+            if (step.glow)     step.glow.style.opacity  = '1';
+            if (step.outerRing) {
+              step.outerRing.style.opacity   = '1';
+              step.outerRing.style.transform = 'scale(1)';
+            }
+          } else {
+            step.box.style.borderColor = ''; // Limpar inline legacy
+            step.box.classList.remove('wf-box-strong');
+            step.box.classList.add('wf-box-dim');
+
+            if (step.numSpan)  step.numSpan.style.color = 'rgb(82, 82, 82)';
+            if (step.glow)     step.glow.style.opacity  = '0.009';
+            if (step.outerRing) {
+              step.outerRing.style.opacity   = '0.009';
+              step.outerRing.style.transform = 'scale(1.39)';
+            }
+          }
+
+          // Sincronizar explosão (burst) em todas caixas ativas quando uma nova acender
+          if (becameActive) {
+            steps.forEach(function (s) {
+              if (s.box && s.box.classList.contains('wf-box-strong')) {
+                s.box.classList.remove('wf-box-burst');
+                if (s.outerRing) s.outerRing.classList.remove('wf-ring-burst');
+                
+                void s.box.offsetWidth; // Força o reflow para reiniciar a animação
+                
+                s.box.classList.add('wf-box-burst');
+                if (s.outerRing) s.outerRing.classList.add('wf-ring-burst');
+                
+                clearTimeout(s.burstTimeout);
+                s.burstTimeout = setTimeout(function () {
+                  if (s.box) s.box.classList.remove('wf-box-burst');
+                  if (s.outerRing) s.outerRing.classList.remove('wf-ring-burst');
+                }, 600);
+              }
+            });
+          }
+        }
+
+        var currentProgress = 0;
+        var targetProgress = 0;
+        var isAnimating = false;
+
+        function renderLerp() {
+          // Fator de suavidade (lerp). Quanto menor, mais suave/escorregadio.
+          currentProgress += (targetProgress - currentProgress) * 0.08;
+
+          if (Math.abs(targetProgress - currentProgress) < 0.001) {
+            currentProgress = targetProgress;
+            isAnimating = false;
+          } else {
+            requestAnimationFrame(renderLerp);
+          }
+
+          progressLine.style.transform = 'scaleY(' + currentProgress + ')';
+
+          // Red line tip position (px from container top)
+          var lineTip = currentProgress * container.offsetHeight;
+
+          // Activate each step whose center the line has passed
+          steps.forEach(function (step) {
+            var stepMid = step.group.offsetTop + step.group.offsetHeight * 0.25;
+            setStepActive(step, lineTip >= stepMid);
+          });
+        }
+
+        function updateProgress() {
+          var rect = container.getBoundingClientRect();
+          var windowH = window.innerHeight;
+
+          // scaleY progress: acompanha a rolagem da tela
+          var progress = ((windowH * 0.6) - rect.top) / rect.height;
+          targetProgress = Math.min(1, Math.max(0, progress));
+
+          if (!isAnimating) {
+            isAnimating = true;
+            requestAnimationFrame(renderLerp);
+          }
+        }
+
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        
+        // Configuração inicial para já carregar na posição correta
+        var initialRect = container.getBoundingClientRect();
+        var initialProg = ((window.innerHeight * 0.6) - initialRect.top) / initialRect.height;
+        currentProgress = targetProgress = Math.min(1, Math.max(0, initialProg));
+        renderLerp();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initWorkflowScroll);
+      } else {
+        setTimeout(initWorkflowScroll, 300);
+      }
+    })();
+  </script>
+
+</body>
+</html>

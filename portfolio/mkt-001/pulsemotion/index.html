@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR" style="scroll-behavior: smooth;">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PulseMotion - Standalone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="assets/resource_3fa48481346f.es"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="assets/css2_addc6f2ab364.css" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            },
+            colors: {
+              vertex: {
+                bg: '#0E1117',
+                card: '#16191F',
+                border: '#2A2E37',
+                red: '#ff4a41',
+                orange: '#ff4a41',
+                text: '#EDEDED',
+                muted: '#8A8F98'
+              }
+            },
+            animation: {
+              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'shimmer-fluid': 'shimmer-fluid 3s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+              'brilho': 'brilho 3s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+            },
+            keyframes: {
+              'shimmer-fluid': {
+                '0%': { transform: 'translateX(-150%) skewX(-25deg)', opacity: '0' },
+                '15%': { opacity: '1' },
+                '50%': { transform: 'translateX(150%) skewX(-25deg)', opacity: '1' },
+                '100%': { transform: 'translateX(150%) skewX(-25deg)', opacity: '0' },
+              },
+              'brilho': {
+                '0%': { opacity: '0', left: '-100%' },
+                '15%': { opacity: '0.3' },
+                '50%': { opacity: '0.6', left: '150%' },
+                '100%': { opacity: '0', left: '150%' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #0E1117;
+        color: #EDEDED;
+        font-family: "Plus Jakarta Sans", sans-serif;
+      }
+    </style>
+    <style>
+/* --- Workflow Pulse Animations --- */
+        @keyframes wf-pulse-dim {
+          0%, 100% { border-color: rgba(255, 255, 255, 0.1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+          50% { border-color: rgba(255, 255, 255, 0.25); box-shadow: 0 0 15px 0 rgba(255, 255, 255, 0.05); }
+        }
+        .wf-box-dim {
+          animation: wf-pulse-dim 3s ease-in-out infinite;
+        }
+
+        @keyframes wf-pulse-strong {
+          0%, 100% { border-color: rgb(255, 74, 65); box-shadow: 0 0 15px 0 rgba(255, 74, 65, 0.3); }
+          50% { border-color: rgb(255, 100, 90); box-shadow: 0 0 30px 5px rgba(255, 74, 65, 0.6); }
+        }
+        .wf-box-strong {
+          animation: wf-pulse-strong 2s ease-in-out infinite;
+        }
+
+        @keyframes wf-pulse-burst {
+          0% { border-color: #fff; box-shadow: 0 0 20px rgba(255, 74, 65, 0.6); transform: scale(1); }
+          30% { border-color: #fff; box-shadow: 0 0 50px 10px rgba(255, 74, 65, 1); transform: scale(1.05); }
+          100% { border-color: rgb(255, 74, 65); box-shadow: 0 0 15px 0 rgba(255, 74, 65, 0.3); transform: scale(1); }
+        }
+        .wf-box-burst {
+          animation: wf-pulse-burst 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
+        }
+
+        /* --- Workflow Ripple Animations (Ondas) --- */
+        @keyframes wf-ring-pulse-dim {
+          0% { transform: scale(1); opacity: 0.15; border-color: rgba(255, 255, 255, 0.2); }
+          50% { transform: scale(1.3); opacity: 0; border-color: rgba(255, 255, 255, 0.1); }
+          100% { transform: scale(1.3); opacity: 0; border-color: rgba(255, 255, 255, 0.1); }
+        }
+        .wf-ring-dim {
+          animation: wf-ring-pulse-dim 3s ease-out infinite;
+        }
+
+        @keyframes wf-ring-pulse-strong {
+          0% { transform: scale(1); opacity: 0.5; border-color: rgb(255, 74, 65); }
+          60% { transform: scale(1.5); opacity: 0; border-color: rgb(255, 74, 65); }
+          100% { transform: scale(1.5); opacity: 0; border-color: rgb(255, 74, 65); }
+        }
+        .wf-ring-strong {
+          animation: wf-ring-pulse-strong 2s ease-out infinite;
+        }
+
+        @keyframes wf-ring-pulse-burst {
+          0% { transform: scale(1); opacity: 0.8; border-color: #fff; border-width: 2px; }
+          100% { transform: scale(1.7); opacity: 0; border-color: rgb(255, 74, 65); border-width: 1px; }
+        }
+        .wf-ring-burst {
+          animation: wf-ring-pulse-burst 0.6s ease-out forwards !important;
+        }
+      </style>
+</head>
+<body class="bg-black">
+    <div style="height: 60vh; display:flex; align-items:center; justify-content:center; color: #8A8F98; flex-direction: column; text-align: center;">
+      <p style="margin-bottom: 1rem;">⬇ Deixe a página rolar para baixo para ver a animação inicializando as etapas ⬇</p>
+    </div>
+    
+    <section class="py-20 md:py-32 bg-black border-t border-white/5 relative overflow-hidden" id="como-funciona"><div class="absolute inset-0 pointer-events-none"><div class="absolute left-[10%] top-[20%] w-[1px] h-[100px] bg-gradient-to-b from-transparent via-white/5 to-transparent"></div><div class="absolute right-[10%] bottom-[20%] w-[1px] h-[100px] bg-gradient-to-b from-transparent via-white/5 to-transparent"></div></div><div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12"><div class="text-center mb-16 md:mb-28 relative z-10" style="opacity: 1; transform: none;"><div class="inline-block mb-4"><span class="py-1 px-3 rounded-full border border-vertex-orange/20 bg-vertex-orange/5 text-vertex-orange text-xs font-mono tracking-wider uppercase">Workflow</span></div><h2 class="text-3xl md:text-5xl font-bold text-white mb-4 md:mb-6 tracking-tight">Com a Vertex, criar projetos <br class="hidden md:block"/> com IA é simples e rápido</h2></div><div class="relative max-w-4xl mx-auto"><div class="absolute left-[28px] md:left-[39px] top-0 bottom-0 w-[2px] bg-white/5 rounded-full z-0"></div><div class="absolute left-[28px] md:left-[39px] top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-vertex-orange to-vertex-red origin-top z-10" style="transform: scaleY(0);"><div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-16 bg-gradient-to-t from-white to-transparent opacity-80 blur-[2px]"></div><div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-4 bg-vertex-orange blur-[8px] rounded-full"></div></div><div class="space-y-16 md:space-y-32 relative z-10 pb-12"><div class="relative flex items-start gap-6 md:gap-12 group"><div class="relative z-20 flex-shrink-0 mt-1"><div class="w-14 h-14 md:w-20 md:h-20 rounded-2xl bg-black border-2 flex items-center justify-center relative overflow-hidden transition-colors duration-300" style="border-color: rgba(255, 255, 255, 0.1); transform: none;"><div class="absolute inset-0 bg-vertex-orange/10 blur-md" style="opacity: 0.00894407;"></div><span class="text-xl md:text-2xl font-bold font-sans relative z-10" style="color: rgb(82, 82, 82);">01</span><div class="absolute top-1 left-1 w-1 h-1 bg-white/20 rounded-full"></div><div class="absolute bottom-1 right-1 w-1 h-1 bg-white/20 rounded-full"></div></div><div class="absolute inset-0 rounded-2xl border border-vertex-orange/50" style="opacity: 0.00894407; transform: scale(1.39284);"></div></div><div class="flex-1 pt-2" style="opacity: 1; transform: none;"><div class="relative group-hover:-translate-y-1 transition-transform duration-500 ease-out p-6 md:p-8 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-sm hover:bg-white/[0.04] hover:border-white/10"><div class="absolute top-0 left-0 w-3 h-[1px] bg-white/20 group-hover:bg-vertex-orange/50 transition-colors"></div><div class="absolute top-0 left-0 w-[1px] h-3 bg-white/20 group-hover:bg-vertex-orange/50 transition-colors"></div><h3 class="text-xl md:text-3xl font-bold text-white mb-3 flex items-center gap-3">Escolha um modelo<svg class="text-vertex-orange opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></h3><p class="text-vertex-muted text-sm md:text-lg leading-relaxed max-w-2xl">Selecione o tipo de app e o nicho (pizzaria, barbearia, clínica, delivery, etc).</p></div></div></div><div class="relative flex items-start gap-6 md:gap-12 group"><div class="relative z-20 flex-shrink-0 mt-1"><div class="w-14 h-14 md:w-20 md:h-20 rounded-2xl bg-black border-2 flex items-center justify-center relative overflow-hidden transition-colors duration-300" style="border-color: rgba(255, 255, 255, 0.1); transform: none;"><div class="absolute inset-0 bg-vertex-orange/10 blur-md" style="opacity: 0.00894407;"></div><span class="text-xl md:text-2xl font-bold font-sans relative z-10" style="color: rgb(82, 82, 82);">02</span><div class="absolute top-1 left-1 w-1 h-1 bg-white/20 rounded-full"></div><div class="absolute bottom-1 right-1 w-1 h-1 bg-white/20 rounded-full"></div></div><div class="absolute inset-0 rounded-2xl border border-vertex-orange/50" style="opacity: 0.00894407; transform: scale(1.39284);"></div></div><div class="flex-1 pt-2" style="opacity: 0; transform: translateX(20px);"><div class="relative group-hover:-translate-y-1 transition-transform duration-500 ease-out p-6 md:p-8 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-sm hover:bg-white/[0.04] hover:border-white/10"><div class="absolute top-0 left-0 w-3 h-[1px] bg-white/20 group-hover:bg-vertex-orange/50 transition-colors"></div><div class="absolute top-0 left-0 w-[1px] h-3 bg-white/20 group-hover:bg-vertex-orange/50 transition-colors"></div><h3 class="text-xl md:text-3xl font-bold text-white mb-3 flex items-center gap-3">Personalize em minutos<svg class="text-vertex-orange opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></h3><p class="text-vertex-muted text-sm md:text-lg leading-relaxed max-w-2xl">Defina nome do projeto, paleta de cores e preferências para gerar uma estrutura clara.</p></div></div></div><div class="relative flex items-start gap-6 md:gap-12 group"><div class="relative z-20 flex-shrink-0 mt-1"><div class="w-14 h-14 md:w-20 md:h-20 rounded-2xl bg-black border-2 flex items-center justify-center relative overflow-hidden transition-colors duration-300" style="border-color: rgba(255, 255, 255, 0.1); transform: none;"><div class="absolute inset-0 bg-vertex-orange/10 blur-md" style="opacity: 0.00894407;"></div><span class="text-xl md:text-2xl font-bold font-sans relative z-10" style="color: rgb(82, 82, 82);">03</span><div class="absolute top-1 left-1 w-1 h-1 bg-white/20 rounded-full"></div><div class="absolute bottom-1 right-1 w-1 h-1 bg-white/20 rounded-full"></div></div><div class="absolute inset-0 rounded-2xl border border-vertex-orange/50" style="opacity: 0.00894407; transform: scale(1.39284);"></div></div><div class="flex-1 pt-2" style="opacity: 0; transform: translateX(20px);"><div class="relative group-hover:-translate-y-1 transition-transform duration-500 ease-out p-6 md:p-8 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-sm hover:bg-white/[0.04] hover:border-white/10"><div class="absolute top-0 left-0 w-3 h-[1px] bg-white/20 group-hover:bg-vertex-orange/50 transition-colors"></div><div class="absolute top-0 left-0 w-[1px] h-3 bg-white/20 group-hover:bg-vertex-orange/50 transition-colors"></div><h3 class="text-xl md:text-3xl font-bold text-white mb-3 flex items-center gap-3">Gere com 1 Clique<svg class="text-vertex-orange opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></h3><p class="text-vertex-muted text-sm md:text-lg leading-relaxed max-w-2xl">Em poucos minutos, seu SaaS completo estará pronto: frontend, backend e painel administrativo.</p></div></div></div><div class="relative flex items-start gap-6 md:gap-12 group"><div class="relative z-20 flex-shrink-0 mt-1"><div class="w-14 h-14 md:w-20 md:h-20 rounded-2xl bg-black border-2 flex items-center justify-center relative overflow-hidden transition-colors duration-300" style="border-color: rgba(255, 255, 255, 0.1); transform: none;"><div class="absolute inset-0 bg-vertex-orange/10 blur-md" style="opacity: 0.00894407;"></div><span class="text-xl md:text-2xl font-bold font-sans relative z-10" style="color: rgb(82, 82, 82);">04</span><div class="absolute top-1 left-1 w-1 h-1 bg-white/20 rounded-full"></div><div class="absolute bottom-1 right-1 w-1 h-1 bg-white/20 rounded-full"></div></div><div class="absolute inset-0 rounded-2xl border border-vertex-orange/50" style="opacity: 0.00894407; transform: scale(1.39284);"></div></div><div class="flex-1 pt-2" style="opacity: 0; transform: translateX(20px);"><div class="relative group-hover:-translate-y-1 transition-transform duration-500 ease-out p-6 md:p-8 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-sm hover:bg-white/[0.04] hover:border-white/10"><div class="absolute top-0 left-0 w-3 h-[1px] bg-white/20 group-hover:bg-vertex-orange/50 transition-colors"></div><div class="absolute top-0 left-0 w-[1px] h-3 bg-white/20 group-hover:bg-vertex-orange/50 transition-colors"></div><h3 class="text-xl md:text-3xl font-bold text-white mb-3 flex items-center gap-3">Publique e lucre<svg class="text-vertex-orange opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></h3><p class="text-vertex-muted text-sm md:text-lg leading-relaxed max-w-2xl">Hospede, conecte seu domínio e comece a faturar com seu novo negócio digital.</p></div></div></div></div></div></div></section>
+    
+    <div style="height: 100vh;"></div>
+
+    <script>
+(function () {
+function initWorkflowScroll() {
+    var section = document.getElementById('como-funciona');
+    if (!section) return;
+
+    var progressLine = section.querySelector('[class*="origin-top"]');
+    if (!progressLine) return;
+
+    var container = progressLine.parentElement;
+
+    // Collect all step groups and their number-box sub-elements
+    var stepsWrapper = container.querySelector('[class*="space-y-"]');
+    if (!stepsWrapper) return;
+
+    var stepGroups = Array.from(stepsWrapper.children);
+
+    var steps = stepGroups.map(function (group) {
+      var flexShrink = group.querySelector('[class*="flex-shrink-0"]');
+      if (!flexShrink) return null;
+      var box      = flexShrink.querySelector('[class*="rounded-2xl"][class*="border-2"]');
+      var glow     = box ? box.querySelector('[class*="bg-vertex-orange"]') : null;
+      var numSpan  = box ? box.querySelector('span') : null;
+      var outerRing = flexShrink.querySelector('[class*="border-vertex-orange"]');
+      return { group: group, box: box, glow: glow, numSpan: numSpan, outerRing: outerRing };
+    }).filter(Boolean);
+
+    function setStepActive(step, active) {
+      if (!step.box) return;
+      
+      var becameActive = active && !step.box.classList.contains('wf-box-strong');
+      
+      if (active) {
+        step.box.style.borderColor = ''; // Limpar inline legacy
+        step.box.classList.remove('wf-box-dim');
+        step.box.classList.add('wf-box-strong');
+
+        if (step.numSpan)  step.numSpan.style.color = 'rgb(255, 255, 255)';
+        if (step.glow)     step.glow.style.opacity  = '1';
+        if (step.outerRing) {
+          step.outerRing.style.opacity   = '1';
+          step.outerRing.style.transform = 'scale(1)';
+        }
+      } else {
+        step.box.style.borderColor = ''; // Limpar inline legacy
+        step.box.classList.remove('wf-box-strong');
+        step.box.classList.add('wf-box-dim');
+
+        if (step.numSpan)  step.numSpan.style.color = 'rgb(82, 82, 82)';
+        if (step.glow)     step.glow.style.opacity  = '0.009';
+        if (step.outerRing) {
+          step.outerRing.style.opacity   = '0.009';
+          step.outerRing.style.transform = 'scale(1.39)';
+        }
+      }
+
+      // Sincronizar explosão (burst) em todas caixas ativas quando uma nova acender
+      if (becameActive) {
+        steps.forEach(function (s) {
+          if (s.box && s.box.classList.contains('wf-box-strong')) {
+            s.box.classList.remove('wf-box-burst');
+            if (s.outerRing) s.outerRing.classList.remove('wf-ring-burst');
+            
+            void s.box.offsetWidth; // Força o reflow para reiniciar a animação
+            
+            s.box.classList.add('wf-box-burst');
+            if (s.outerRing) s.outerRing.classList.add('wf-ring-burst');
+            
+            clearTimeout(s.burstTimeout);
+            s.burstTimeout = setTimeout(function () {
+              if (s.box) s.box.classList.remove('wf-box-burst');
+              if (s.outerRing) s.outerRing.classList.remove('wf-ring-burst');
+            }, 600);
+          }
+        });
+      }
+    }
+
+    var currentProgress = 0;
+    var targetProgress = 0;
+    var isAnimating = false;
+
+    function renderLerp() {
+      // Fator de suavidade (lerp). Quanto menor, mais suave/escorregadio.
+      currentProgress += (targetProgress - currentProgress) * 0.08;
+
+      if (Math.abs(targetProgress - currentProgress) < 0.001) {
+        currentProgress = targetProgress;
+        isAnimating = false;
+      } else {
+        requestAnimationFrame(renderLerp);
+      }
+
+      progressLine.style.transform = 'scaleY(' + currentProgress + ')';
+
+      // Red line tip position (px from container top)
+      var lineTip = currentProgress * container.offsetHeight;
+
+      // Activate each step whose center the line has passed
+      steps.forEach(function (step) {
+        var stepMid = step.group.offsetTop + step.group.offsetHeight * 0.25;
+        setStepActive(step, lineTip >= stepMid);
+      });
+    }
+
+    function updateProgress() {
+      var rect = container.getBoundingClientRect();
+      var windowH = window.innerHeight;
+
+      // scaleY progress: acompanha a rolagem da tela
+      var progress = ((windowH * 0.6) - rect.top) / rect.height;
+      targetProgress = Math.min(1, Math.max(0, progress));
+
+      if (!isAnimating) {
+        isAnimating = true;
+        requestAnimationFrame(renderLerp);
+      }
+    }
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    
+    // Configuração inicial para já carregar na posição correta
+    var initialRect = container.getBoundingClientRect();
+    var initialProg = ((window.innerHeight * 0.6) - initialRect.top) / initialRect.height;
+    currentProgress = targetProgress = Math.min(1, Math.max(0, initialProg));
+    renderLerp();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWorkflowScroll);
+  } else {
+    setTimeout(initWorkflowScroll, 300);
+  }
+})();
+</script>
+</body>
+</html>
